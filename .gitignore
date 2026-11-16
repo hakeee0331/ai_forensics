@@ -1,0 +1,64 @@
+# OS / editor local settings
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python environments / caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Jupyter temporary files; keep experiment notebooks and their outputs
+.ipynb_checkpoints/
+
+# Credentials / machine-specific configuration
+.env
+.env.*
+!.env.example
+credentials.json
+service-account*.json
+*.pem
+*.key
+
+# Local datasets / archives
+/data/
+/datasets/
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+*.h5
+*.hdf5
+*.npy
+*.npz
+
+# Model weights / training caches; no storage layout is prescribed yet
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.keras
+.cache/
+wandb/
+runs/
+*.log
+
+# Do not ignore report Markdown, notebook outputs, or all image files.
+# Report figures may need to be tracked; keep raw images outside the repo.
