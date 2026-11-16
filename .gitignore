@@ -35,7 +35,9 @@ service-account*.json
 *.key
 
 # Local datasets / archives
-/data/
+/data/*
+!/data/.gitkeep
+!/data/README.md
 /datasets/
 *.zip
 *.tar
