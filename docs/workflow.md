@@ -3,6 +3,7 @@
 - 팀원이 로컬 노트북을 VS Code의 Colab 커널에서 실행하고, 출력이 저장된 파일로 보고서를 작성하는 절차임.
 - 평가·EDA는 완료된 001·002를 참고함.
 - CAT-Net 단일 이미지 동작은 [003 보고서](catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md)를 참고함.
+- 새 CAT-Net 실행의 공통 함수 호출은 [사용 안내](catnet.md)를 참고함.
 - 새 실행은 새 개인 번호로 진행함.
 
 로컬 실행용 코드를 작성할 때는 별도 [데이터 배치 안내](../data/README.md)를 따름. 아래 Drive 마운트·경로·커널 연결 절차는 Colab 실행에 해당함.
@@ -32,6 +33,7 @@
     └── scripts/
         ├── __init__.py
         ├── datasets.py
+        ├── catnet.py
         ├── preprocessing.py
         ├── evaluation.py
         ├── create_autosplice_split.py

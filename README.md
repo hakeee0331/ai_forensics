@@ -11,6 +11,7 @@ AI로 이미지의 일부를 바꾼 영역을 픽셀 단위로 찾아내는 프�
 | [CONTRIBUTING](CONTRIBUTING.md) | 작성자별 파일명·번호, 노트북 보존, 보고·Git 규칙 |
 | [노트북 실행과 결과 전달](docs/workflow.md) | 새 파일 준비 → Drive 업로드 → VS Code·Colab 연결 → 실행·저장 → 보고서 갱신 |
 | [전처리 함수 사용 안내](docs/preprocessing.md) | 공통 함수의 입력·출력·제약과 팀원 검증 항목 |
+| [CAT-Net 공통 함수](docs/catnet.md) | 공식 코드·가중치 준비, 모델 로드·JPEG 추론 호출 예시 |
 | [패키지 사용 제안](docs/package_proposal.md) | 학습 패키지 구성안. 아직 팀 합의·버전 확정 전임 |
 | [AGENTS](AGENTS.md) | 에이전트의 작업 범위와 결과 확인 규칙 |
 
@@ -63,6 +64,7 @@ ai_forensics/
     ├── preprocessing.py
     ├── evaluation.py
     ├── datasets.py
+    ├── catnet.py
     ├── create_autosplice_split.py
     └── splits/
         ├── README.md
@@ -119,9 +121,10 @@ PyTorch·torchvision 중심의 패키지 구성과 CAT-Net 환경 분리 방안�
 | `scripts/preprocessing.py` | RGB 읽기, 지정한 전경값의 이진 마스크 읽기, 이미지·마스크 동일 위치 크롭, ELA 생성 |
 | `scripts/evaluation.py` | TP·FP·FN·TN 집계, Pixel F1·IoU·픽셀 오탐률 계산 |
 | `scripts/datasets.py` | ZIP 복사·SHA-256 확인·압축 해제 및 재사용, AutoSplice 원본 ID 분할 연결, CocoGlide CSV 기반 이미지·마스크 경로 연결 |
+| `scripts/catnet.py` | 003 기준 공식 코드·가중치 준비, 사전학습 CAT-Net 로드·독립 JPEG 입력 구성·단일 JPEG 추론. Colab 호출 검증 필요 |
 | `scripts/create_autosplice_split.py` | ZIP의 원본 ID에서 분할 CSV 최초 생성. 기존 파일 덮어쓰기 방지 |
 
-모델 정의, 손실 함수, 최적화 설정, 학습·검증 반복문, 체크포인트 선택과 예측 시각화는 노트북에 작성한다. `datasets.py`는 데이터 ZIP을 준비하고 파일 경로를 연결하며 이미지 픽셀은 `preprocessing.py`로 읽는다. 프레임워크별 Dataset·DataLoader는 아직 구현하지 않았다.
+모델 정의, 손실 함수, 최적화 설정, 학습·검증 반복문, 체크포인트 선택과 예측 시각화는 노트북에 작성한다. `datasets.py`는 데이터 ZIP을 준비하고 파일 경로를 연결하며 이미지 픽셀은 `preprocessing.py`로 읽는다. 공통 학습용 Dataset·DataLoader는 아직 구현하지 않았다. CAT-Net은 공식 모델·입력 로더를 호출하는 부분을 `catnet.py`에서 재사용하며, Drive 마운트·경로·패키지 설치·평가·시각화는 노트북에 둔다. [사용 안내](docs/catnet.md)를 참고한다.
 
 전처리 함수의 입력·출력, 호출 순서, 제안서와의 대응 및 알려진 한계는 [전처리 함수 사용 안내](docs/preprocessing.md)에 정리했다.
 
