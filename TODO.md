@@ -33,6 +33,11 @@
 - [data/README.md](data/README.md)에 ZIP·해제 폴더 배치, 공통 로더 경로, 고정 분할·해시 확인과 로컬 실행 기록 방법을 정리함. `data/.gitkeep`과 안내 문서만 Git 추적 대상으로 두며 실제 데이터는 제외함.
 - 기존 Colab 노트북은 보존함. 로컬용 노트북·환경 구성과 실제 실행 검증은 아직 하지 않음.
 
+### 사전학습 가중치 준비 — 2026-11-20
+
+- 사전학습 가중치 위치를 `models/pretrained/<모델명>/`으로 정함. 로컬 추가·변경 시 공유 Drive의 `AI_Forensics/project/` 아래 같은 경로에도 업로드해야 함. [준비 안내](models/pretrained/README.md)에 복사·해시 확인·재로드 절차를 기록함.
+- CAT-Net 대상 파일은 `catnet/CAT_full_v2.pth.tar`임. 실제 업로드·가중치 로드·추론 완료 여부는 아직 확인하지 않음. 학습 결과 저장 구조(T16)는 계속 보류함.
+
 ### 준비 항목별 상태
 
 - **T03 — 검토 필요:** [패키지 사용 제안서](docs/package_proposal.md)의 검토와 PyTorch·torchvision 및 CAT-Net 의존성의 Colab 호환성 확인이 필요함. 패키지 버전·설치 방법·학습 실행은 아직 검증하지 않음.

@@ -41,6 +41,12 @@
 
 로컬 파일 저장·Git 커밋·push는 Drive 업로드를 대신하지 않음. 공통 코드 변경 시 [필수 업로드 절차](../README.md#공통-코드-수정-후-drive-업로드--필수)를 따름. 여러 팀원이 같은 Drive 코드를 사용하므로 실행 중에 다른 버전으로 교체하지 않도록 업로드 시점을 맞춤.
 
+### 사전학습 가중치를 사용하는 경우
+
+`scripts/`와 동일하게, 로컬 가중치를 추가·변경하면 다음 실행 전에 Drive에도 반영해야 함. 저장 위치는 `AI_Forensics/project/models/pretrained/<모델명>/`이며, CAT-Net은 `catnet/CAT_full_v2.pth.tar`를 사용함. 기존 예제·EDA에는 가중치가 필요하지 않음.
+
+가중치는 Git에서 제외되므로 clone·pull만으로 준비되지 않음. Drive에서 `/content` 아래로 복사한 뒤 SHA-256을 대조하고, 실제 사용한 파일의 출처·크기·해시를 출력에 남김. 파일을 교체하면 런타임 복사본과 메모리의 모델도 다시 로드해야 함. 상세 경로와 업로드 절차는 [사전학습 가중치 안내](../models/pretrained/README.md)를 따름.
+
 ## 3. VS Code에서 Colab 연결
 
 1. VS Code에서 로컬 프로젝트 폴더와 새로 만든 `.ipynb`를 엶.

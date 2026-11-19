@@ -41,6 +41,10 @@ ai_forensics/
 ├── data/
 │   ├── .gitkeep
 │   └── README.md
+├── models/
+│   └── pretrained/
+│       ├── README.md
+│       └── catnet/
 ├── notebooks/
 │   ├── rgb_unet/
 │   ├── ela_unet/
@@ -116,6 +120,12 @@ PyTorch·torchvision 중심의 패키지 구성과 CAT-Net 환경 분리 방안�
 모델 정의, 손실 함수, 최적화 설정, 학습·검증 반복문, 체크포인트 선택과 예측 시각화는 노트북에 작성한다. `datasets.py`는 데이터 ZIP을 준비하고 파일 경로를 연결하며 이미지 픽셀은 `preprocessing.py`로 읽는다. 프레임워크별 Dataset·DataLoader는 아직 구현하지 않았다.
 
 전처리 함수의 입력·출력, 호출 순서, 제안서와의 대응 및 알려진 한계는 [전처리 함수 사용 안내](docs/preprocessing.md)에 정리했다.
+
+## 사전학습 가중치 준비
+
+사전학습 가중치는 `models/pretrained/<모델명>/`에 둔다. CAT-Net은 `models/pretrained/catnet/CAT_full_v2.pth.tar`를 사용한다. **로컬에 가중치를 추가·변경하면 실행 전에 공유 Drive의 `AI_Forensics/project/models/pretrained/`에도 같은 경로로 업로드해야 한다.** `scripts/`처럼 자동 동기화되지 않으며 Git push도 Drive 업로드를 대신하지 않는다.
+
+실행 시 Drive에서 `/content` 아래로 복사하고 파일 크기·SHA-256·로드 결과를 확인한다. 가중치 파일은 Git에서 제외한다. 자세한 절차는 [사전학습 가중치 안내](models/pretrained/README.md)를 따른다. 학습 결과 저장 구조는 아직 미정이다.
 
 ## 첫 Colab 예제
 
