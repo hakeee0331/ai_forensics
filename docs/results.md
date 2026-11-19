@@ -1,6 +1,6 @@
 # 실험 결과
 
-CAT-Net v2의 AutoSplice train 한 장 추론·평가를 확인했다(2026-11-20). 전체 데이터셋의 모델 비교 평가는 아직 실행하지 않았다. 평가 함수 사용 예제와 데이터 EDA는 Colab 실행·저장 출력 검토를 완료했다(2026-11-17). T05의 분할 최종 확정과 팀원 검증은 남아 있다. 설명용 예측의 계산값은 모델 점수표에 넣지 않는다.
+CAT-Net v2의 단일 이미지 확인과 AutoSplice test·CocoGlide 전체 2,257장 평가, 저장된 그림 18개 검토를 마쳤다(2026-11-20). 여러 모델 간 비교·학습·파인튜닝은 아직 실행하지 않았다. 평가 함수 사용 예제와 데이터 EDA는 Colab 실행·저장 출력 검토를 완료했다(2026-11-17). T05의 분할 최종 확정과 팀원 검증은 남아 있다. 설명용 예측의 계산값은 모델 점수표에 넣지 않는다.
 
 ## 평가 조건
 
@@ -10,8 +10,16 @@ AutoSplice는 [고정 분할 CSV](../scripts/splits/autosplice_seed42.csv)를 �
 
 ## 모델 실험
 
+004는 임계값 0.5·원본 해상도에서 이미지별 점수를 평균함. 정상 원본은 품질별로 중복 집계하지 않음. CocoGlide 입력은 PNG→JPEG100·4:4:4이며 원본 PNG를 그대로 사용한 평가가 아님. 아래 오탐률은 정상 이미지별 **픽셀 오탐률의 평균**임. 사전학습 데이터 중복 검토와 일부 런타임 해시 확인은 남아 있으며, 상세한 입력 조건·그림·재현 한계는 [004 보고서](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md)에 기록함. T12는 진행 중임.
+
 | 실험·보고서 | 모델 | 데이터셋·분할 | 평가 조건 | 조작/정상 수 | Pixel F1 | IoU | 정상 픽셀 오탐률 | 상태 | 노트북 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [004](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md) | CAT-Net v2 사전학습 | AutoSplice test | JPEG100, 임계값 0.5 | 335 / 0 | 0.881532 | 0.804299 | 해당 없음 | 완료: 저장 출력 확인 | [노트북](../notebooks/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.ipynb) |
+| [004](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md) | CAT-Net v2 사전학습 | AutoSplice test | JPEG90, 임계값 0.5 | 335 / 0 | 0.804874 | 0.717161 | 해당 없음 | 완료: 저장 출력 확인 | [노트북](../notebooks/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.ipynb) |
+| [004](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md) | CAT-Net v2 사전학습 | AutoSplice test | JPEG75, 임계값 0.5 | 335 / 0 | 0.402828 | 0.320014 | 해당 없음 | 완료: 저장 출력 확인 | [노트북](../notebooks/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.ipynb) |
+| [004](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md) | CAT-Net v2 사전학습 | AutoSplice test | 정상 JPEG 원본, 임계값 0.5 | 0 / 228 | 해당 없음 | 해당 없음 | 0.146428 | 완료: 저장 출력 확인 | [노트북](../notebooks/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.ipynb) |
+| [004](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md) | CAT-Net v2 사전학습 | CocoGlide external_test | PNG→JPEG100, 4:4:4, 임계값 0.5 | 512 / 0 | 0.363874 | 0.287961 | 해당 없음 | 완료: 저장 출력 확인 | [노트북](../notebooks/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.ipynb) |
+| [004](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md) | CAT-Net v2 사전학습 | CocoGlide external_test | PNG→JPEG100, 4:4:4, 임계값 0.5 | 0 / 512 | 해당 없음 | 해당 없음 | 0.166143 | 완료: 저장 출력 확인 | [노트북](../notebooks/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.ipynb) |
 
 실험·보고서 열에는 개별 보고서 링크를, 노트북 열에는 대응하는 노트북 링크를 넣는다. 미실행·실패·미측정 항목을 0으로 기록하지 않는다. 노트북 출력·보고서·이 표의 숫자는 일치해야 한다.
 

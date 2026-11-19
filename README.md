@@ -4,7 +4,7 @@ AI로 이미지의 일부를 바꾼 영역을 픽셀 단위로 찾아내는 프�
 
 ## 처음 참여할 때
 
-현재는 001 평가 함수 예제, 002 데이터 EDA와 003 CAT-Net 단일 이미지 추론·평가의 저장 출력 검토를 마쳤다. 모델 학습과 전체 데이터셋 비교 평가는 시작하지 않았다. 학습 환경·공통 비교 조건과 T05의 최종 확정은 남아 있다. 현재 진행 상태는 [TODO](TODO.md), 실제 측정 결과는 [결과 목록과 개별 보고서](docs/results.md)를 기준으로 확인한다.
+001 평가 함수 예제, 002 데이터 EDA, 003 CAT-Net 단일 이미지 확인과 004 CAT-Net 전체 테스트 평가의 저장 출력 검토를 마쳤다. 004에서 AutoSplice test·CocoGlide 전체 2,257장과 시각화 18개를 확인했다. 모델 학습과 여러 모델 간 비교는 아직 진행하지 않았다. 학습 환경·공통 비교 조건과 T05의 최종 확정은 남아 있다. 현재 진행 상태는 [TODO](TODO.md), 실제 측정 결과는 [결과 목록과 개별 보고서](docs/results.md)를 기준으로 확인한다.
 
 | 문서 | 확인할 내용 |
 | --- | --- |
@@ -110,9 +110,11 @@ ai_forensics/
 
 PyTorch·torchvision 중심의 패키지 구성과 CAT-Net 환경 분리 방안은 [모델 구현 패키지 사용 제안](docs/package_proposal.md)에 정리했다. 팀 검토용 문서이며 패키지 버전·설치 방법을 확정한 것은 아니다.
 
-## CAT-Net 단일 이미지 확인 — T12
+## CAT-Net 사전학습 모델 평가 — T12
 
-[003 노트북](notebooks/catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.ipynb)과 [보고서](docs/catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md)에서 CAT_full_v2 가중치 로드와 AutoSplice train 한 장의 입력·추론·시각화·평가를 확인했다(2026-11-20). L4에서 실행했으며 Pixel F1 0.906346, IoU 0.828732는 전체 데이터셋 성능이 아니다. 전체 평가와 사전학습 데이터 중복 검토가 남아 T12는 진행 중이다. 003은 보존하고 후속 실행은 새 개인 번호로 진행한다.
+[003 노트북](notebooks/catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.ipynb)과 [보고서](docs/catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md)에서 CAT_full_v2 가중치 로드와 AutoSplice train 한 장의 입력·추론·시각화·평가를 확인했다(2026-11-20). L4에서 실행했으며 Pixel F1 0.906346, IoU 0.828732는 전체 데이터셋 성능이 아니다.
+
+[004 노트북](notebooks/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.ipynb)과 [보고서](docs/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md)에서 공통 함수로 AutoSplice test·CocoGlide 2,257장을 평가하고 그림 18개를 확인했다. 임계값은 0.5이며 CocoGlide는 PNG를 JPEG100·4:4:4로 변환했다. CocoGlide의 조작 이미지 평균 F1은 0.363874, IoU는 0.287961, 정상 이미지 평균 픽셀 오탐률은 0.166143이다. 변환의 한계와 누락·과검출 사례는 보고서에 기록했다. 사전학습 데이터 중복 검토와 일부 런타임 코드·분할 해시 확인이 남아 T12는 진행 중이다. 003·004는 보존하고 후속 실행은 새 개인 번호로 진행한다.
 
 ## 공통 코드의 역할
 
@@ -121,7 +123,7 @@ PyTorch·torchvision 중심의 패키지 구성과 CAT-Net 환경 분리 방안�
 | `scripts/preprocessing.py` | RGB 읽기, 지정한 전경값의 이진 마스크 읽기, 이미지·마스크 동일 위치 크롭, ELA 생성 |
 | `scripts/evaluation.py` | TP·FP·FN·TN 집계, Pixel F1·IoU·픽셀 오탐률 계산 |
 | `scripts/datasets.py` | ZIP 복사·SHA-256 확인·압축 해제 및 재사용, AutoSplice 원본 ID 분할 연결, CocoGlide CSV 기반 이미지·마스크 경로 연결 |
-| `scripts/catnet.py` | 003 기준 공식 코드·가중치 준비, 사전학습 CAT-Net 로드·독립 JPEG 입력 구성·단일 JPEG 추론. Colab 호출 검증 필요 |
+| `scripts/catnet.py` | 003 기준 공식 코드·가중치 준비, 사전학습 CAT-Net 로드·독립 JPEG 입력 구성·단일 JPEG 추론. 004에서 Colab 전체 평가 호출 확인, 학습 미검증 |
 | `scripts/create_autosplice_split.py` | ZIP의 원본 ID에서 분할 CSV 최초 생성. 기존 파일 덮어쓰기 방지 |
 
 모델 정의, 손실 함수, 최적화 설정, 학습·검증 반복문, 체크포인트 선택과 예측 시각화는 노트북에 작성한다. `datasets.py`는 데이터 ZIP을 준비하고 파일 경로를 연결하며 이미지 픽셀은 `preprocessing.py`로 읽는다. 공통 학습용 Dataset·DataLoader는 아직 구현하지 않았다. CAT-Net은 공식 모델·입력 로더를 호출하는 부분을 `catnet.py`에서 재사용하며, Drive 마운트·경로·패키지 설치·평가·시각화는 노트북에 둔다. [사용 안내](docs/catnet.md)를 참고한다.

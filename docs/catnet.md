@@ -2,7 +2,7 @@
 
 [003 보고서](catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md)의 모델 로드·단일 JPEG 추론 과정을 [scripts/catnet.py](../scripts/catnet.py)로 묶음. 공식 모델과 입력 로더를 그대로 사용하며, 003 노트북은 보존함.
 
-공통 함수는 작성했으나 Colab에서의 실제 호출 검증은 아직 필요함. 004는 작성자가 직접 작성·실행하며, 보고서는 저장 출력을 확인한 뒤 작성함. 아래 코드는 새 노트북에 넣을 호출 예시임.
+[004 보고서](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md)에서 공통 함수로 AutoSplice test·CocoGlide 2,257장 평가와 시각화 18개를 확인함(2026-11-20). 학습·역전파·파인튜닝은 아직 검증하지 않음. 아래 코드는 새 노트북에 넣을 호출 예시임.
 
 ## 역할과 반환값
 
@@ -92,7 +92,7 @@ print("최솟값·최댓값:", float(probability.min()), float(probability.max()
 
 `predict_proba`는 파일 경로를 받음. RGB 배열만 전달하면 원본 JPEG의 DCT 계수·양자화 테이블을 읽을 수 없으므로 배열 입력은 지원하지 않음. `prepare_input()`에서 공식 로더의 `RGB`, `DCTvol`, `qtable` 입력을 구성하고, 출력 logits를 입력 크기로 bilinear 보간(`align_corners=False`)한 뒤 softmax의 조작 클래스 1을 선택하고 패딩을 제거함. 이 순서는 003과 같음.
 
-현재는 **JPEG 한 장씩** 지원함. PNG를 임의의 품질로 재압축하지 않음. CocoGlide 등 비 JPEG 입력의 변환 조건, 정상 이미지·여러 해상도·전체 데이터 평가와 사전학습 데이터 중복 가능성은 별도로 검증해야 함.
+현재는 **JPEG 한 장씩** 지원하며 함수 내부에서 PNG를 변환하지 않음. 004에서는 노트북에서 CocoGlide PNG 1,024장을 RGB JPEG 품질 100·`subsampling=0`(4:4:4)으로 별도 저장한 뒤 이 함수를 호출함. 원본 크기와 마스크를 유지하고 정상·조작 전체를 평가함. 품질 100도 무손실 보장이 아니며 새 JPEG의 DCT가 원래 압축 이력을 복원하지는 않음. 변환 조건·결과 해석은 [004 보고서](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md#png--jpeg-변환의-한계)를 참고함. 사전학습 데이터 중복 검토는 남아 있음.
 
 ## 입력 구성만 재사용할 때
 
@@ -148,6 +148,8 @@ plt.show()
 
 2026-11-20에 합성 파일·대체 객체를 사용한 12개 검사로 가중치 복사·재사용·손상·중단 처리, 코드 커밋·변경·필수 파일 검사, import 충돌, strict 로드 호출, 보간→softmax→패딩 제거 순서와 PNG 거부를 확인함. 입력 함수의 텐서·원본 크기 반환, 배치·장치 변경 및 추론 모드 호출이 없는 점, 모델 생성 없이 입력 로더를 재사용하는 점도 검사함. 실제 공식 저장소 복제·체크포인트 역직렬화·JPEG 디코딩·GPU 추론·역전파는 이 검사에 포함하지 않음.
 
-004에서는 새 커널에서 위 순서로 실행하고 경로·환경·해시·표본·점수·그림을 저장해야 함. 003은 확률 배열 자체를 저장하지 않았으므로 기존 점수 일치만으로 확률의 완전한 동일성을 입증할 수는 없음. 수치 대조가 필요하면 004에서 같은 모델·같은 입력으로 003의 입력·추론 코드를 직접 호출한 결과와 공통 함수 결과의 최대 절대 오차를 비교함. 이를 위해 003 원본을 재실행하지 않음.
+004의 저장 출력에서 공식 코드 준비·가중치 로드·실제 JPEG 입력·GPU 추론과 전체 평가를 확인함. `catnet.py` 해시는 런타임 출력과 로컬이 일치함. 다른 공통 코드·분할 CSV의 런타임 해시와 import 경로는 출력되지 않아 동일성을 독립적으로 확인하지 못함. 다음 새 실행에서는 위 확인 절차를 포함함.
 
-공식 구조와 입력의 근거는 [CAT-Net 저장소](https://github.com/mjkwon2021/CAT-Net), 프로젝트에서 실제 사용한 조건과 결과의 근거는 [003 보고서](catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md)와 연결된 저장 노트북임.
+003 직접 호출과 공통 함수의 확률 배열 오차 비교는 수행하지 않았음. 필요하면 새 개인 번호에서 같은 모델·입력에 대한 두 경로의 최대 절대 오차를 비교함. 003·004 원본은 보존함.
+
+공식 구조와 입력의 근거는 [CAT-Net 저장소](https://github.com/mjkwon2021/CAT-Net), 프로젝트에서 실제 사용한 조건과 결과의 근거는 [003 보고서](catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md)·[004 보고서](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md)와 연결된 저장 노트북임.

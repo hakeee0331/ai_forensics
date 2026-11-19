@@ -2,7 +2,7 @@
 
 - 팀원이 로컬 노트북을 VS Code의 Colab 커널에서 실행하고, 출력이 저장된 파일로 보고서를 작성하는 절차임.
 - 평가·EDA는 완료된 001·002를 참고함.
-- CAT-Net 단일 이미지 동작은 [003 보고서](catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md)를 참고함.
+- CAT-Net 단일 이미지 동작은 [003 보고서](catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md), 공통 함수의 전체 테스트 평가·PNG 변환·성공 및 실패 사례는 [004 보고서](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md)를 참고함. 004는 2,257장과 그림 18개를 확인했으나 일부 공통 코드·분할 CSV의 런타임 해시는 미기록임. 다음 실행에서 아래 해시 확인 절차를 포함함.
 - 새 CAT-Net 실행의 공통 함수 호출은 [사용 안내](catnet.md)를 참고함.
 - 새 실행은 새 개인 번호로 진행함.
 

@@ -62,7 +62,7 @@ RGB U-Net 기준 노트북을 먼저 만들고 검증한 뒤, 해당 코드를 �
 
 CAT-Net 공식 저장소는 PyTorch 구현과 사전학습 가중치를 제공함. 공식 README의 환경 예시는 Python 3.6, torch 1.1.0, torchvision 0.3.0을 사용함. 이는 공식 저장소의 안내를 확인한 것이며, 이 구버전을 현재 팀 표준으로 채택하자는 뜻은 아님. [CAT-Net 공식 저장소](https://github.com/mjkwon2021/CAT-Net)
 
-공식 requirements에는 torch_dct, jpegio, Cython, pyyaml, yacs, tqdm, pillow, opencv-python, tensorboardX, matplotlib, seaborn 등이 포함돼 있음. 이 목록은 CAT-Net 의존성이므로 세 U-Net의 기본 환경에 모두 추가하지 않음. 현재 Colab과의 호환성은 아직 검증하지 않았음. [공식 requirements](https://github.com/mjkwon2021/CAT-Net/blob/main/requirements.txt)
+공식 requirements에는 torch_dct, jpegio, Cython, pyyaml, yacs, tqdm, pillow, opencv-python, tensorboardX, matplotlib, seaborn 등이 포함돼 있음. 이 목록은 CAT-Net 의존성이므로 세 U-Net의 기본 환경에 모두 추가하지 않음. 003·004에서 추론에 사용한 패키지 조합의 Colab 동작은 확인했으나, 이 requirements 전체와 학습 환경의 호환성은 별도 검증이 필요함. [공식 requirements](https://github.com/mjkwon2021/CAT-Net/blob/main/requirements.txt)
 
 CAT-Net 담당자는 다음을 확인한 뒤 실행 환경을 기록함.
 
@@ -87,7 +87,7 @@ EDA 단계에서는 실제 실행한 Python·패키지 버전을 출력으로 �
 - 체크포인트 저장·재로드 후 예측 일치 확인.
 - 공통 평가 함수에 연결하고 노트북 실행 환경 출력 저장.
 
-2026-11-20: [003 보고서](catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md)에서 CAT-Net의 L4 단일 이미지 추론 환경을 확인함. 전체 평가·학습·깨끗한 환경에서의 재현 설치 검증은 남아 있으므로, 이 문서의 팀 공통 버전과 설치 명령은 아직 확정하지 않음. 이 제안이 채택되면 README의 필수 환경·버전 검사 규칙도 합의한 범위에 맞춰 정리해야 함.
+2026-11-20: [003 보고서](catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md)에서 CAT-Net의 L4 단일 이미지 추론 환경을 확인함. [004 보고서](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md)에서는 RTX PRO 6000 Blackwell Server Edition에서 2,257장 전체 테스트 평가를 확인함. 학습·깨끗한 환경에서의 재현 설치 검증은 남아 있으므로, 이 문서의 팀 공통 버전과 설치 명령은 아직 확정하지 않음. 이 제안이 채택되면 README의 필수 환경·버전 검사 규칙도 합의한 범위에 맞춰 정리해야 함.
 
 ## 기존 작업 방식과 연결
 
