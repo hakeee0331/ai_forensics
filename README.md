@@ -4,7 +4,7 @@ AI로 이미지의 일부를 바꾼 영역을 픽셀 단위로 찾아내는 프�
 
 ## 처음 참여할 때
 
-현재는 001 평가 함수 예제와 002 데이터 EDA의 실행·출력 검토를 마쳤으며, 모델 학습은 시작하지 않았다. 학습 환경·공통 비교 조건과 T05의 최종 확정은 남아 있다. 현재 진행 상태는 [TODO](TODO.md), 실제 측정 결과는 [결과 목록과 개별 보고서](docs/results.md)를 기준으로 확인한다.
+현재는 001 평가 함수 예제, 002 데이터 EDA와 003 CAT-Net 단일 이미지 추론·평가의 저장 출력 검토를 마쳤다. 모델 학습과 전체 데이터셋 비교 평가는 시작하지 않았다. 학습 환경·공통 비교 조건과 T05의 최종 확정은 남아 있다. 현재 진행 상태는 [TODO](TODO.md), 실제 측정 결과는 [결과 목록과 개별 보고서](docs/results.md)를 기준으로 확인한다.
 
 | 문서 | 확인할 내용 |
 | --- | --- |
@@ -107,6 +107,10 @@ ai_forensics/
 현재 예제·EDA는 NumPy·Pillow·pandas·matplotlib이 필요하며 모델 프레임워크는 사용하지 않는다. 이 단계는 실제 버전과 설정을 출력으로 남겨 실행할 수 있다. 위 버전 일치 검사는 기본 비교 학습을 위한 규칙이며, 현재 노트북에서 팀 필수 버전을 검사하고 있다는 뜻은 아니다.
 
 PyTorch·torchvision 중심의 패키지 구성과 CAT-Net 환경 분리 방안은 [모델 구현 패키지 사용 제안](docs/package_proposal.md)에 정리했다. 팀 검토용 문서이며 패키지 버전·설치 방법을 확정한 것은 아니다.
+
+## CAT-Net 단일 이미지 확인 — T12
+
+[003 노트북](notebooks/catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.ipynb)과 [보고서](docs/catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md)에서 CAT_full_v2 가중치 로드와 AutoSplice train 한 장의 입력·추론·시각화·평가를 확인했다(2026-11-20). L4에서 실행했으며 Pixel F1 0.906346, IoU 0.828732는 전체 데이터셋 성능이 아니다. 전체 평가와 사전학습 데이터 중복 검토가 남아 T12는 진행 중이다. 003은 보존하고 후속 실행은 새 개인 번호로 진행한다.
 
 ## 공통 코드의 역할
 
