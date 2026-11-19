@@ -22,8 +22,11 @@ AutoSplice는 [고정 분할 CSV](../scripts/splits/autosplice_seed42.csv)를 �
 | [EXP_kimjaehak_001_evaluation_example](eda/EXP_kimjaehak_001_evaluation_example.md) | AutoSplice, CocoGlide | 공통 ZIP 준비 함수·고정 ID 분할·파일 연결·이미지 및 마스크 표시·평가 함수 사용법 | 완료: Colab 저장 출력 확인 (2026-11-17) | [노트북](../notebooks/eda/EXP_kimjaehak_001_evaluation_example.ipynb) |
 | [EXP_kimjaehak_002_dataset_eda](eda/EXP_kimjaehak_002_dataset_eda.md) | AutoSplice, CocoGlide | 전체 파일·마스크·분할·정확한 중복 검사, AutoSplice train 분포·마스크 시각화 | 완료: Colab 저장 출력 확인, T05 최종 확정 대기 (2026-11-17) | [노트북](../notebooks/eda/EXP_kimjaehak_002_dataset_eda.ipynb) |
 | [EXP_byhyun_001_preprocessing_check](eda/EXP_byhyun_001_preprocessing_check.md) | AutoSplice | 이미지·마스크·정상 원본 크기·EXIF 정합성, Crop·뒤집기와 ELA 순서, ELA 수치 처리, 정상·조작 파일의 JPEG 저장 이력, ELA 설정 후보 비교, Crop 크기, 평가 규칙 확인 | 완료: Colab 저장 출력 확인, T06 규약 확정 대기 (2026-11-18) | [노트북](../notebooks/eda/EXP_byhyun_001_preprocessing_check.ipynb) |
+| [EXP_kimjihwan_001_unet_pipeline_check](rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.md) | AutoSplice | ResNet-50 U-Net(RGB·ELA·RGB+ELA)의 사전학습 가중치 로드, 3·6채널 입출력 크기, 작은 배치 학습, 체크포인트 재로드, 원본 해상도 추론·평가 함수 연결 동작 확인. 학습 설정은 임시값, 성능 미측정 | 완료: Colab 저장 출력 확인, T03·T06 확정 대기 (2026-11-20) | [노트북](../notebooks/rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.ipynb) |
 EDA에는 모델 성능 점수를 만들지 않고 분석 보고서와 노트북을 연결한다.
 
 2026-11-17: 002 코드 셀 10개·오류 출력 0개·그림 3개를 확인함. 이미지 14,160개·마스크 2,222개의 읽기·값·대응 크기 오류와 파일·RGB 해시 중복이 0개임. 기존 해제 파일을 재사용했으며 근접 중복 검사는 미실행임. 팀원의 표본 마스크 시각 검토와 분할 최종 확정이 남아 T05는 검토 필요 상태임.
 
 2026-11-18: 001 코드 셀 12개·오류 출력 0개·그림 3개를 확인함. train 조작 이미지 2,925장에서 이미지·마스크·정상 원본의 크기 불일치와 EXIF 방향 이상은 0개임. 샘플 200장에서 정상 원본은 모두 Q75·4:2:0, 조작본은 모두 Q100·4:2:0 JPEG임. ELA 후보·scale·Crop 크기·패딩 필요 여부는 제안이며, 임계값·학습 조건·ELA 최종 설정은 T06에서 확정해야 함. 마스크 밖이 원본과 크게 다른 이미지가 100장 중 20장이라 T05의 마스크 시각 검토가 필요함.
+
+2026-11-20: [kimjihwan 001 U-Net 동작 확인](rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.md)([노트북](../notebooks/rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.ipynb))의 Colab 저장 출력을 확인함. 코드 셀 11개·오류 출력 0개·그림 3개임. torch 2.14.1+cu130·torchvision 0.29.1+cu130, A100에서 세 U-Net의 가중치 로드·학습·체크포인트 재로드·원본 해상도 추론·평가 함수 연결이 동작함. 몇 step만 학습한 동작 확인이라 모델 실험 표에 점수를 넣지 않음.
