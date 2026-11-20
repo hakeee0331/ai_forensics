@@ -33,9 +33,11 @@ AutoSplice는 [고정 분할 CSV](../scripts/splits/autosplice_seed42.csv)를 �
 | [EXP_kimjaehak_002_dataset_eda](eda/EXP_kimjaehak_002_dataset_eda.md) | AutoSplice, CocoGlide | 전체 파일·마스크·분할·정확한 중복 검사, AutoSplice train 분포·마스크 시각화 | 완료: Colab 저장 출력 확인, T05 최종 확정 대기 (2026-11-17) | [노트북](../notebooks/eda/EXP_kimjaehak_002_dataset_eda.ipynb) |
 | [EXP_byhyun_001_preprocessing_check](eda/EXP_byhyun_001_preprocessing_check.md) | AutoSplice | 이미지·마스크·정상 원본 크기·EXIF 정합성, Crop·뒤집기와 ELA 순서, ELA 수치 처리, 정상·조작 파일의 JPEG 저장 이력, ELA 설정 후보 비교, Crop 크기, 평가 규칙 확인 | 완료: Colab 저장 출력 확인, T06 규약 확정 대기 (2026-11-18) | [노트북](../notebooks/eda/EXP_byhyun_001_preprocessing_check.ipynb) |
 EDA에는 모델 성능 점수를 만들지 않고 분석 보고서와 노트북을 연결한다.
+| [EXP_byhyun_002_preprocessing_padding_check](eda/EXP_byhyun_002_preprocessing_padding_check.md) | AutoSplice | 수정된 입력 검사(`foreground_value`·`scale`)와 평가용 패딩·언패딩 함수 확인(합성 입력, val 조작 이미지 361장) | 완료: Colab 저장 출력 확인 (2026-11-20) | [노트북](../notebooks/eda/EXP_byhyun_002_preprocessing_padding_check.ipynb) |
 
 - 2026-11-17: 002 코드 셀 10개·오류 출력 0개·그림 3개를 확인함. 이미지 14,160개·마스크 2,222개의 읽기·값·대응 크기 오류와 파일·RGB 해시 중복이 0개임. 기존 해제 파일을 재사용했으며 근접 중복 검사는 미실행임. 팀원의 표본 마스크 시각 검토와 분할 최종 확정이 남아 T05는 검토 필요 상태임.
 - 2026-11-18: 001 코드 셀 12개·오류 출력 0개·그림 3개를 확인함. train 조작 이미지 2,925장에서 이미지·마스크·정상 원본의 크기 불일치와 EXIF 방향 이상은 0개임. 샘플 200장에서 정상 원본은 모두 Q75·4:2:0, 조작본은 모두 Q100·4:2:0 JPEG임. ELA 후보·scale·Crop 크기·패딩 필요 여부는 제안이며, 임계값·학습 조건·ELA 최종 설정은 T06에서 확정해야 함. 마스크 밖이 원본과 크게 다른 이미지가 100장 중 20장이라 T05의 마스크 시각 검토가 필요함.
+- 2026-11-20: 002 코드 셀 4개·오류 출력 0개·그림 1개를 확인함. 실행번호는 1, 2, 6, 9로 오름차순이지만 연속이 아님. 수정된 입력 검사는 합성 입력에서 의도대로 동작했고, AutoSplice val 조작 이미지 361장 모두에서 32의 배수 우하단 패딩, 좌측 상단 보존, 패딩 영역 0, 마스크 복원이 일치함(패딩이 필요했던 이미지 250장). train·test·CocoGlide와 모델 출력 언패딩은 확인하지 않음. 평가 집계·임계값·학습 조건이 남아 T06은 완료가 아님.
 
 ## 모델 동작 확인 — 단일 이미지
 

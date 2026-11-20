@@ -30,6 +30,7 @@
 - [004 CAT-Net 전체 테스트 평가](docs/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md): AutoSplice test·CocoGlide 전체 2,257장 집계와 그림 18개 검토 완료. CocoGlide F1 0.363874·IoU 0.287961·정상 픽셀 오탐률 0.166143이며 PNG→JPEG100·4:4:4 입력 조건과 한계를 기록함.
 - 001·002·003·004는 보존하며 kimjaehak의 다음 새 실험 번호는 005임. 새 파일 작성 직전에 번호 충돌을 확인함. 실행 환경·코드 버전·측정값·검증 한계는 각 보고서에 기록함.
 - [byhyun 001 전처리 실데이터 검증](docs/eda/EXP_byhyun_001_preprocessing_check.md): Colab 저장 출력 검토 완료. AutoSplice에서 ELA·크롭 처리와 평가 규칙 관련 개수를 확인하고 ELA 후보와 크롭 크기를 제안함. 모델 성능은 측정하지 않음.
+- [byhyun 002 전처리 패딩·입력 검증](docs/eda/EXP_byhyun_002_preprocessing_padding_check.md): Colab 저장 출력 검토 완료. 수정된 입력 검사와 `pad_image`·`unpad_image`를 합성 입력과 AutoSplice val 조작 이미지 361장에서 확인함. 모델 성능은 측정하지 않음.
 
 ### 로컬 데이터 준비
 
