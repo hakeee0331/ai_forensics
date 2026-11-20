@@ -1,6 +1,10 @@
 # 노트북 실행과 결과 전달
 
-팀원이 로컬 노트북을 VS Code의 Colab 커널에서 실행하고, 출력이 저장된 파일로 보고서를 작성하는 절차임. 현재 완료된 001·002를 참고하며 새 실행은 새 개인 번호로 진행함.
+- 팀원이 로컬 노트북을 VS Code의 Colab 커널에서 실행하고, 출력이 저장된 파일로 보고서를 작성하는 절차임.
+- 평가·EDA는 완료된 001·002를 참고함.
+- CAT-Net 단일 이미지 동작은 [003 보고서](catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md), 공통 함수의 전체 테스트 평가·PNG 변환·성공 및 실패 사례는 [004 보고서](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md)를 참고함. 004는 2,257장과 그림 18개를 확인했으나 일부 공통 코드·분할 CSV의 런타임 해시는 미기록임. 다음 실행에서 아래 해시 확인 절차를 포함함.
+- 새 CAT-Net 실행의 공통 함수 호출은 [사용 안내](catnet.md)를 참고함.
+- 새 실행은 새 개인 번호로 진행함.
 
 로컬 실행용 코드를 작성할 때는 별도 [데이터 배치 안내](../data/README.md)를 따름. 아래 Drive 마운트·경로·커널 연결 절차는 Colab 실행에 해당함.
 
@@ -29,6 +33,7 @@
     └── scripts/
         ├── __init__.py
         ├── datasets.py
+        ├── catnet.py
         ├── preprocessing.py
         ├── evaluation.py
         ├── create_autosplice_split.py
@@ -40,6 +45,12 @@
 로컬 프로젝트의 `scripts/` 전체를 `AI_Forensics/project/` 아래에 업로드함. 데이터 ZIP은 공유된 파일을 그대로 사용함. 분할 CSV를 다시 생성하지 않음. 노트북과 보고서는 로컬 프로젝트에서 관리하며, 현재 코드 실행을 위해 Drive에 업로드할 필요는 없음.
 
 로컬 파일 저장·Git 커밋·push는 Drive 업로드를 대신하지 않음. 공통 코드 변경 시 [필수 업로드 절차](../README.md#공통-코드-수정-후-drive-업로드--필수)를 따름. 여러 팀원이 같은 Drive 코드를 사용하므로 실행 중에 다른 버전으로 교체하지 않도록 업로드 시점을 맞춤.
+
+### 사전학습 가중치를 사용하는 경우
+
+`scripts/`와 동일하게, 로컬 가중치를 추가·변경하면 다음 실행 전에 Drive에도 반영해야 함. 저장 위치는 `AI_Forensics/project/models/pretrained/<모델명>/`이며, CAT-Net은 `catnet/CAT_full_v2.pth.tar`를 사용함. 기존 예제·EDA에는 가중치가 필요하지 않음.
+
+가중치는 Git에서 제외되므로 clone·pull만으로 준비되지 않음. Drive에서 `/content` 아래로 복사한 뒤 SHA-256을 대조하고, 실제 사용한 파일의 출처·크기·해시를 출력에 남김. 파일을 교체하면 런타임 복사본과 메모리의 모델도 다시 로드해야 함. 상세 경로와 업로드 절차는 [사전학습 가중치 안내](../models/pretrained/README.md)를 따름.
 
 ## 3. VS Code에서 Colab 연결
 

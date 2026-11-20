@@ -50,7 +50,7 @@ service-account*.json
 *.npy
 *.npz
 
-# Model weights / training caches; no storage layout is prescribed yet
+# Model weights / training caches; pretrained location: models/pretrained/
 *.pt
 *.pth
 *.ckpt
