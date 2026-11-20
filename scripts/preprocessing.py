@@ -1,4 +1,4 @@
-"""RGB·마스크 읽기, 같은 위치 크롭, ELA 생성을 처리함."""
+"""RGB·마스크 읽기, 같은 위치 크롭, ELA 생성, 평가용 패딩을 처리함."""
 
 from io import BytesIO
 from pathlib import Path
@@ -36,7 +36,7 @@ def load_rgb(path: PathLike) -> np.ndarray:
 
 def load_binary_mask(path: PathLike, *, foreground_value: int) -> np.ndarray:
     """배경 0은 0, 지정한 전경값은 1로 변환함. EXIF 방향은 변경하지 않음."""
-    if not isinstance(foreground_value, int) or isinstance(foreground_value, bool):
+    if isinstance(foreground_value, (bool, np.bool_)) or not isinstance(foreground_value, (int, np.integer)):
         raise ValueError("foreground_value는 양의 정수여야 함.")
     if foreground_value <= 0:
         raise ValueError("배경값은 0이며 foreground_value는 양수여야 함.")
@@ -57,7 +57,7 @@ def crop_pair(rgb: np.ndarray, mask: np.ndarray, *, top: int, left: int,
     if rgb.shape[:2] != mask.shape:
         raise ValueError("이미지와 마스크의 높이·너비가 일치해야 함.")
     for value in (top, left, height, width):
-        if not isinstance(value, (int, np.integer)) or isinstance(value, (bool, np.bool_)):
+        if isinstance(value, (bool, np.bool_)) or not isinstance(value, (int, np.integer)):
             raise ValueError("크롭 좌표·크기는 정수여야 함.")
     if top < 0 or left < 0 or height <= 0 or width <= 0:
         raise ValueError("좌표는 0 이상, 크기는 양수여야 함.")
@@ -83,8 +83,8 @@ def make_ela(rgb: np.ndarray, *, quality: int, scale: float, subsampling: int) -
         raise ValueError("subsampling은 정수 0, 1, 2 중 하나여야 함.")
     if not isinstance(subsampling, (int, np.integer)):
         raise ValueError("subsampling은 정수여야 함.")
-    if not np.isscalar(scale) or not np.isfinite(scale) or scale <= 0:
-        raise ValueError("scale은 유한한 양수여야 함.")
+    if isinstance(scale, (bool, np.bool_, complex, np.complexfloating)) or not isinstance(scale, (int, float, np.number)) or not np.isfinite(scale) or scale <= 0:
+        raise ValueError("scale은 유한한 양의 실수여야 함.")
     with BytesIO() as buffer:
         Image.fromarray(rgb).save(buffer, format="JPEG", quality=int(quality),
                                   subsampling=int(subsampling), optimize=False, progressive=False)
@@ -97,3 +97,38 @@ def make_ela(rgb: np.ndarray, *, quality: int, scale: float, subsampling: int) -
     if scale > 1:
         difference = np.minimum(difference, 255.0 / scale)
     return np.clip(np.rint(difference * scale), 0, 255).astype(np.uint8)
+
+
+def pad_image(array: np.ndarray, *, multiple: int = 32) -> Tuple[np.ndarray, Tuple[int, int]]:
+    """배열의 높이·너비를 multiple의 배수로 올림해 우하단에 제로 패딩함.
+
+    좌측 상단 (0, 0)을 고정하며, (패딩된 배열, (원본 높이, 원본 너비))를 반환함.
+    """
+    array = np.asarray(array)
+    if array.ndim not in (2, 3) or min(array.shape[:2]) < 1:
+        raise ValueError("입력은 비어 있지 않은 (H, W) 또는 (H, W, C) 배열이어야 함.")
+    if isinstance(multiple, (bool, np.bool_)) or not isinstance(multiple, (int, np.integer)) or multiple <= 0:
+        raise ValueError("multiple은 양의 정수여야 함.")
+    orig_h, orig_w = array.shape[:2]
+    pad_h = (multiple - orig_h % multiple) % multiple
+    pad_w = (multiple - orig_w % multiple) % multiple
+    if pad_h == 0 and pad_w == 0:
+        return array.copy(), (orig_h, orig_w)
+    pad_width = ((0, pad_h), (0, pad_w)) if array.ndim == 2 else ((0, pad_h), (0, pad_w), (0, 0))
+    return np.pad(array, pad_width=pad_width, mode="constant", constant_values=0), (orig_h, orig_w)
+
+
+def unpad_image(array: np.ndarray, *, original_size: Tuple[int, int]) -> np.ndarray:
+    """우하단 패딩을 제거하고 좌측 상단 (0, 0) 기준 원본 크기로 잘라냄."""
+    array = np.asarray(array)
+    if array.ndim not in (2, 3) or min(array.shape[:2]) < 1:
+        raise ValueError("입력은 비어 있지 않은 (H, W) 또는 (H, W, C) 배열이어야 함.")
+    if len(original_size) != 2:
+        raise ValueError("original_size는 (원본 높이, 원본 너비) 튜플이어야 함.")
+    orig_h, orig_w = original_size
+    for value in (orig_h, orig_w):
+        if isinstance(value, (bool, np.bool_)) or not isinstance(value, (int, np.integer)) or value <= 0:
+            raise ValueError("original_size의 높이와 너비는 양의 정수여야 함.")
+    if orig_h > array.shape[0] or orig_w > array.shape[1]:
+        raise ValueError("original_size는 현재 배열 크기보다 작거나 같아야 함.")
+    return array[:orig_h, :orig_w].copy()
