@@ -30,6 +30,7 @@
 - [004 CAT-Net 전체 테스트 평가](docs/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md): AutoSplice test·CocoGlide 전체 2,257장 집계와 그림 18개 검토 완료. CocoGlide F1 0.363874·IoU 0.287961·정상 픽셀 오탐률 0.166143이며 PNG→JPEG100·4:4:4 입력 조건과 한계를 기록함.
 - 001·002·003·004는 보존하며 kimjaehak의 다음 새 실험 번호는 005임. 새 파일 작성 직전에 번호 충돌을 확인함. 실행 환경·코드 버전·측정값·검증 한계는 각 보고서에 기록함.
 - [byhyun 001 전처리 실데이터 검증](docs/eda/EXP_byhyun_001_preprocessing_check.md): Colab 저장 출력 검토 완료. AutoSplice에서 ELA·크롭 처리와 평가 규칙 관련 개수를 확인하고 ELA 후보와 크롭 크기를 제안함. 모델 성능은 측정하지 않음.
+- [kimjihwan 001 U-Net 동작 확인](docs/rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.md): Colab 저장 출력 검토 완료(2026-11-20). ResNet-50 U-Net의 3·6채널 입력, 작은 배치 학습, 체크포인트 재로드, 원본 해상도 추론과 평가 함수 연결이 A100에서 모두 동작함. 학습 설정은 임시값이며 기본 실험·성능 측정이 아님. kimjihwan의 다음 새 실험 번호는 002임.
 
 ### 로컬 데이터 준비
 
@@ -69,7 +70,7 @@
 
 | ID | 작업 | 담당 | 상태 | 완료 조건 |
 | --- | --- | --- | --- | --- |
-| T09 | RGB U-Net 기본 실험 | 미정 | 미착수 | 확정한 공통 조건으로 실행하고 노트북·보고서·점수표 기록 |
+| T09 | RGB U-Net 기본 실험 | kimjihwan | 진행 중 | 확정한 공통 조건으로 실행하고 노트북·보고서·점수표 기록 |
 | T10 | ELA U-Net 기본 실험 | 미정 | 미착수 | RGB 기본 실험과 비교 가능한 조건으로 실행·기록 |
 | T11 | RGB+ELA U-Net 기본 실험 | 미정 | 미착수 | 같은 이미지에서 RGB·ELA를 구성해 실행·기록 |
 | T12 | CAT-Net 사전 학습 모델 검증 | kimjaehak | 진행 중 | 공식 입력·가중치·학습 데이터 중복 요건 확인 후 실행·기록 |
