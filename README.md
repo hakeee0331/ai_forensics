@@ -4,7 +4,7 @@ AI로 이미지의 일부를 바꾼 영역을 픽셀 단위로 찾아내는 프�
 
 ## 처음 참여할 때
 
-001 평가 함수 예제, 002 데이터 EDA, 003 CAT-Net 단일 이미지 확인과 004 CAT-Net 전체 테스트 평가의 저장 출력 검토를 마쳤다. 004에서 AutoSplice test·CocoGlide 전체 2,257장과 시각화 18개를 확인했다. 모델 학습과 여러 모델 간 비교는 아직 진행하지 않았다. T05에서 기존 분할 유지를 확정했다. 학습 환경과 공통 비교 조건은 TODO에서 확인한다. 현재 진행 상태는 [TODO](TODO.md), 실제 측정 결과는 [결과 목록과 개별 보고서](docs/results.md)를 기준으로 확인한다.
+001 평가 함수 예제, 002 데이터 EDA, 003 CAT-Net 단일 이미지 확인과 004 CAT-Net 전체 테스트 평가의 저장 출력 검토를 마쳤다. 004에서 AutoSplice test·CocoGlide 전체 2,257장과 시각화 18개를 확인했다. U-Net의 작은 배치 학습 동작 확인은 완료했으며, CAT-Net의 005·006 학습·평가도 출력 검토를 마쳤다. 세 U-Net의 본격적인 비교 실험은 아직 진행하지 않았다. T05에서 기존 분할 유지를 확정했다. 학습 환경과 공통 비교 조건은 TODO에서 확인한다. 현재 진행 상태는 [TODO](TODO.md), 실제 측정 결과는 [결과 목록과 개별 보고서](docs/results.md)를 기준으로 확인한다.
 
 | 문서 | 확인할 내용 |
 | --- | --- |
@@ -12,6 +12,7 @@ AI로 이미지의 일부를 바꾼 영역을 픽셀 단위로 찾아내는 프�
 | [노트북 실행과 결과 전달](docs/workflow.md) | 새 파일 준비 → Drive 업로드 → VS Code·Colab 연결 → 실행·저장 → 보고서 갱신 |
 | [전처리 함수 사용 안내](docs/preprocessing.md) | 공통 함수의 입력·출력·제약과 팀원 검증 항목 |
 | [CAT-Net 공통 함수](docs/catnet.md) | 공식 코드·가중치 준비, 모델 로드·JPEG 추론 호출 예시 |
+| [CAT-Net 학습 실행 안내](docs/catnet_training.md) | 005·006 실제 결과, 후속 실행·체크포인트 Drive 보관·결과 전달 |
 | [패키지 사용 제안](docs/package_proposal.md) | 학습 패키지 구성안. 아직 팀 합의·버전 확정 전임 |
 | [AGENTS](AGENTS.md) | 에이전트의 작업 범위와 결과 확인 규칙 |
 
@@ -71,7 +72,7 @@ ai_forensics/
         └── autosplice_seed42.csv
 ```
 
-빈 폴더의 `.gitkeep`은 폴더 구조를 보존하기 위한 파일이다. 현재 EDA 폴더에는 실행·출력 검토를 마친 평가 함수 사용 예제와 데이터 EDA 노트북, 각각의 보고서가 있다. 모델 출력 디렉토리와 지표 JSON 저장 구조는 아직 정하지 않았다.
+빈 폴더의 `.gitkeep`은 폴더 구조를 보존하기 위한 파일이다. 현재 EDA 폴더에는 실행·출력 검토를 마친 평가 함수 사용 예제와 데이터 EDA 노트북, 각각의 보고서가 있다. CAT-Net 학습 체크포인트는 Drive의 `AI_Forensics/project/models/checkpoints/catnet/`에 실험 파일명으로 보관한다. 예측 이미지·지표 JSON 등 나머지 모델 출력 저장 구조는 아직 정하지 않았다.
 
 로컬에서 데이터 로드·분석 코드를 작성할 때는 [data/README.md](data/README.md)의 배치 안내를 따른다. `data/`에는 안내와 `.gitkeep`만 추적하고 실제 데이터는 Git에서 제외한다. 기존 001·002의 Colab 실행 구성은 유지하며, 로컬용 노트북은 새 개인 번호로 작성하고 실행 환경을 구분해 기록한다.
 
@@ -116,6 +117,10 @@ PyTorch·torchvision 중심의 패키지 구성과 CAT-Net 환경 분리 방안�
 
 [004 노트북](notebooks/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.ipynb)과 [보고서](docs/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md)에서 공통 함수로 AutoSplice test·CocoGlide 2,257장을 평가하고 그림 18개를 확인했다. 임계값은 0.5이며 CocoGlide는 PNG를 JPEG100·4:4:4로 변환했다. CocoGlide의 조작 이미지 평균 F1은 0.363874, IoU는 0.287961, 정상 이미지 평균 픽셀 오탐률은 0.166143이다. 변환의 한계와 누락·과검출 사례는 보고서에 기록했다. 사전학습 데이터 중복 검토와 일부 런타임 코드·분할 해시 확인이 남아 T12는 진행 중이다. 003·004는 보존하고 후속 실행은 새 개인 번호로 진행한다.
 
+## CAT-Net 전이학습·파인튜닝 결과 — T21·T22
+
+2026-11-22에 005·006의 A100 학습·체크포인트 재로드·각 2,257장 평가와 그림 13개씩을 확인함. [005 출력부 전이학습](docs/catnet/EXP_kimjaehak_005_catnet_transfer_learning.md)은 epoch 15가 선택됐으며 JPEG100 F1은 0.927879로 개선됐으나 JPEG75 F1은 0.018991, CocoGlide 정상 픽셀 오탐률은 0.807781로 악화됨. [006 전체 파인튜닝](docs/catnet/EXP_kimjaehak_006_catnet_finetuning.md)은 5 epoch 동안 val 개선이 없어 **학습 전 epoch 0을 최종 평가**함. 실행 완료와 학습 개선 성공을 구분함. 원본 노트북은 보존하고 재실험은 새 번호로 진행함. 체크포인트 Drive 보관·팀원 시각 검토 확인은 남아 있음. [학습·보관 안내](docs/catnet_training.md)를 따름. 이번 학습값은 팀 공통 규약의 확정을 뜻하지 않음.
+
 ## 공통 코드의 역할
 
 | 파일 | 현재 제공하는 기능 |
@@ -123,7 +128,7 @@ PyTorch·torchvision 중심의 패키지 구성과 CAT-Net 환경 분리 방안�
 | `scripts/preprocessing.py` | RGB 읽기, 지정한 전경값의 이진 마스크 읽기, 이미지·마스크 동일 위치 크롭, ELA 생성, 평가용 우하단 제로 패딩·언패딩 |
 | `scripts/evaluation.py` | TP·FP·FN·TN 집계, Pixel F1·IoU·픽셀 오탐률 계산 |
 | `scripts/datasets.py` | ZIP 복사·SHA-256 확인·압축 해제 및 재사용, AutoSplice 원본 ID 분할 연결, CocoGlide CSV 기반 이미지·마스크 경로 연결 |
-| `scripts/catnet.py` | 003 기준 공식 코드·가중치 준비, 사전학습 CAT-Net 로드·독립 JPEG 입력 구성·단일 JPEG 추론. 004에서 Colab 전체 평가 호출 확인, 학습 미검증 |
+| `scripts/catnet.py` | 003 기준 공식 코드·가중치 준비, 사전학습 CAT-Net 로드·독립 JPEG 입력 구성·단일 JPEG 추론. 004 전체 평가 및 005·006 학습 입력·역전파·재로드 연결 확인. 006은 학습 개선 실패 |
 | `scripts/create_autosplice_split.py` | ZIP의 원본 ID에서 분할 CSV 최초 생성. 기존 파일 덮어쓰기 방지 |
 
 모델 정의, 손실 함수, 최적화 설정, 학습·검증 반복문, 체크포인트 선택과 예측 시각화는 노트북에 작성한다. `datasets.py`는 데이터 ZIP을 준비하고 파일 경로를 연결하며 이미지 픽셀은 `preprocessing.py`로 읽는다. 공통 학습용 Dataset·DataLoader는 아직 구현하지 않았다. CAT-Net은 공식 모델·입력 로더를 호출하는 부분을 `catnet.py`에서 재사용하며, Drive 마운트·경로·패키지 설치·평가·시각화는 노트북에 둔다. [사용 안내](docs/catnet.md)를 참고한다.

@@ -4,6 +4,7 @@
 - 평가·EDA는 완료된 001·002를 참고함.
 - CAT-Net 단일 이미지 동작은 [003 보고서](catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md), 공통 함수의 전체 테스트 평가·PNG 변환·성공 및 실패 사례는 [004 보고서](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md)를 참고함. 004는 2,257장과 그림 18개를 확인했으나 일부 공통 코드·분할 CSV의 런타임 해시는 미기록임. 다음 실행에서 아래 해시 확인 절차를 포함함.
 - 새 CAT-Net 실행의 공통 함수 호출은 [사용 안내](catnet.md)를 참고함.
+- 005 출력부 전이학습·006 전체 파인튜닝은 [학습 실행 안내](catnet_training.md)의 준비·작은 배치 확인·학습·평가·체크포인트 Drive 보관 순서를 따름. 두 노트북은 저장 출력 검토를 마쳤으며 원본을 보존함(2026-11-22). 005는 epoch 15, 006은 개선이 없어 학습 전 epoch 0을 평가함. 체크포인트 Drive 보관 확인은 남아 있음.
 - 새 실행은 새 개인 번호로 진행함.
 
 로컬 실행용 코드를 작성할 때는 별도 [데이터 배치 안내](../data/README.md)를 따름. 아래 Drive 마운트·경로·커널 연결 절차는 Colab 실행에 해당함.
@@ -81,6 +82,12 @@
 | 사람 검토 | 마스크 정합성·의심 사례의 ID와 이유를 작성 중인 노트북의 검토 메모에 남김 |
 
 AutoSplice는 `/content/datasets`에 해제해 그 안의 `AutoSplice/`를 읽고, CocoGlide는 `/content/datasets/CocoGlide`에 해제함. ZIP 내부 최상위 구조가 달라 해제 위치도 다름. 완료 표시를 이용한 재사용은 해제 파일의 내용을 매번 검증한다는 뜻이 아님. 직접 수정한 해제 파일로 검증을 이어가지 말고 원본 ZIP에서 새로 준비함.
+
+## 학습 체크포인트 보관
+
+노트북 출력 저장과 모델 파일 보관은 별개임. CAT-Net의 런타임 `/content/checkpoints/<실험파일명>_best.pt`는 종료 전에 Drive의 `AI_Forensics/project/models/checkpoints/catnet/`로 복사하고 SHA-256 일치를 확인함. 공식 가중치 `models/pretrained/catnet/`와 구분함. VS Code에서 다운로드 셀을 실행했다는 사실만으로 로컬 다운로드 완료로 기록하지 않음. 실제 파일 존재·크기·해시를 확인함. [복사 코드·재로드 안내](catnet_training.md#체크포인트-보관재시작)를 따름.
+
+확정 노트북의 기존 셀·출력을 바꾸지 않고 별도 임시 노트북을 해당 런타임에 연결해 보관 작업만 수행할 수 있음. 이때 `checkpoint_path` 대신 명시적인 원본 파일 경로를 사용함. 모델을 다시 학습하거나 평가할 필요는 없음.
 
 ## 5. 저장·검토·확정
 

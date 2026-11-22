@@ -87,7 +87,7 @@ EDA 단계에서는 실제 실행한 Python·패키지 버전을 출력으로 �
 - 체크포인트 저장·재로드 후 예측 일치 확인.
 - 공통 평가 함수에 연결하고 노트북 실행 환경 출력 저장.
 
-2026-11-20: [003 보고서](catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md)에서 CAT-Net의 L4 단일 이미지 추론 환경을 확인함. [004 보고서](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md)에서는 RTX PRO 6000 Blackwell Server Edition에서 2,257장 전체 테스트 평가를 확인함. 학습·깨끗한 환경에서의 재현 설치 검증은 남아 있으므로, 이 문서의 팀 공통 버전과 설치 명령은 아직 확정하지 않음. 이 제안이 채택되면 README의 필수 환경·버전 검사 규칙도 합의한 범위에 맞춰 정리해야 함.
+2026-11-20: [003 보고서](catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md)에서 CAT-Net의 L4 단일 이미지 추론 환경을 확인함. [004 보고서](catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md)에서는 RTX PRO 6000 Blackwell Server Edition에서 2,257장 전체 테스트 평가를 확인함. 2026-11-22의 [005·006 학습](catnet_training.md)에서는 A100에서 역전파·학습·체크포인트 재로드도 확인함. 006은 최적화 불안정성으로 개선에 실패했으며 깨끗한 환경에서의 재현 설치 검증도 남아 있으므로, 이 문서의 팀 공통 버전과 설치 명령은 아직 확정하지 않음. 이 제안이 채택되면 README의 필수 환경·버전 검사 규칙도 합의한 범위에 맞춰 정리해야 함.
 
 ## 기존 작업 방식과 연결
 

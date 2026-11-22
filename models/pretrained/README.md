@@ -1,6 +1,6 @@
 # 사전학습 가중치 준비
 
-사전학습 가중치는 프로젝트 루트의 `models/pretrained/<모델명>/`에 둠. CAT-Net은 `models/pretrained/catnet/CAT_full_v2.pth.tar`를 사용함. 학습 결과 체크포인트의 저장 위치는 별도로 정함.
+사전학습 가중치는 프로젝트 루트의 `models/pretrained/<모델명>/`에 둠. CAT-Net은 `models/pretrained/catnet/CAT_full_v2.pth.tar`를 사용함. 학습 결과는 Drive의 `AI_Forensics/project/models/checkpoints/catnet/`에 `<실험파일명>_best.pt`로 보관함. 공식 초기 가중치와 구분하며 [체크포인트 복사·해시 확인·재로드 안내](../../docs/catnet_training.md#체크포인트-보관재시작)를 따름.
 
 ## 공유 Drive 반영 — 필수
 
