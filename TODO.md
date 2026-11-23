@@ -35,6 +35,7 @@
 - [seonghun 001 근접 중복 검사](docs/eda/EXP_seonghun_001_near_duplicate_check.md)·[002 CNN 특징 근접 중복 검사](docs/eda/EXP_seonghun_002_near_duplicate_feature_check.md): Colab 저장 출력 검토 완료(2026-11-23). 서로 다른 split 사이 중복은 46217(train)–54313(val) 1쌍, train 내부 중복 9쌍을 찾음. 분할 CSV는 변경하지 않음. seonghun의 다음 새 실험 번호는 004임.
 - [seonghun 003 JPEG 저장 이력 확인](docs/eda/EXP_seonghun_003_jpeg_history_check.md): Colab 저장 출력 검토 완료(2026-11-23). AutoSplice 정상 원본 2,273장은 모두 Q75, 조작본은 폴더 이름의 품질(100·90·75)과 모두 일치하며 4:2:0·표준 테이블임. CocoGlide는 모두 PNG임. 정상·JPEG100 조작본이 저장 품질만으로 구분되므로 학습·평가 조건 논의가 필요함.
 - [005 출력부 전이학습](docs/catnet/EXP_kimjaehak_005_catnet_transfer_learning.md)·[006 전체 파인튜닝](docs/catnet/EXP_kimjaehak_006_catnet_finetuning.md): 2026-11-22 A100 저장 출력 검토 완료. 각각 코드 셀 15개·오류 0개·그림 13개·테스트 2,257행을 확인함. 005는 epoch 15 선택, JPEG100 개선과 JPEG75·CocoGlide 악화를 함께 기록함. 006은 5 epoch 학습 후 개선 없이 epoch 0 선택으로 학습 개선에 실패함. 체크포인트 재로드 오차는 둘 다 0이며 Drive 보관·팀원 시각 검토 확인은 남아 있음. [실행·보관 안내](docs/catnet_training.md)를 따름.
+- 2026-11-23 기준 005·006 체크포인트는 작성자 확인으로 Drive 미업로드 상태임. 원본 파일이 남아 있으면 기존 경로로 복사해 해시를 검증함. 다음 학습 노트북부터 [실행 안내](docs/workflow.md#학습-체크포인트-보관)의 모델별 경로와 자동 보관 절차를 반영해야 함.
 
 ### 로컬 데이터 준비
 

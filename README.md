@@ -72,7 +72,7 @@ ai_forensics/
         └── autosplice_seed42.csv
 ```
 
-빈 폴더의 `.gitkeep`은 폴더 구조를 보존하기 위한 파일이다. 현재 EDA 폴더에는 실행·출력 검토를 마친 평가 함수 사용 예제와 데이터 EDA 노트북, 각각의 보고서가 있다. CAT-Net 학습 체크포인트는 Drive의 `AI_Forensics/project/models/checkpoints/catnet/`에 실험 파일명으로 보관한다. 예측 이미지·지표 JSON 등 나머지 모델 출력 저장 구조는 아직 정하지 않았다.
+빈 폴더의 `.gitkeep`은 폴더 구조를 보존하기 위한 파일이다. 현재 EDA 폴더에는 실행·출력 검토를 마친 평가 함수 사용 예제와 데이터 EDA 노트북, 각각의 보고서가 있다. 새 학습 노트북은 최선 체크포인트를 공유 Drive의 `AI_Forensics/project/models/checkpoints/<모델명>/<실험파일명>_best.pt`에 자동으로 보관한다. 모델별 경로와 확인 절차는 [학습 체크포인트 보관](docs/workflow.md#학습-체크포인트-보관)을 따른다. 예측 이미지·지표 JSON의 저장 위치는 아직 정하지 않았다.
 
 로컬에서 데이터 로드·분석 코드를 작성할 때는 [data/README.md](data/README.md)의 배치 안내를 따른다. `data/`에는 안내와 `.gitkeep`만 추적하고 실제 데이터는 Git에서 제외한다. 기존 001·002의 Colab 실행 구성은 유지하며, 로컬용 노트북은 새 개인 번호로 작성하고 실행 환경을 구분해 기록한다.
 
@@ -139,7 +139,7 @@ PyTorch·torchvision 중심의 패키지 구성과 CAT-Net 환경 분리 방안�
 
 사전학습 가중치는 `models/pretrained/<모델명>/`에 둔다. CAT-Net은 `models/pretrained/catnet/CAT_full_v2.pth.tar`를 사용한다. **로컬에 가중치를 추가·변경하면 실행 전에 공유 Drive의 `AI_Forensics/project/models/pretrained/`에도 같은 경로로 업로드해야 한다.** `scripts/`처럼 자동 동기화되지 않으며 Git push도 Drive 업로드를 대신하지 않는다.
 
-실행 시 Drive에서 `/content` 아래로 복사하고 파일 크기·SHA-256·로드 결과를 확인한다. 가중치 파일은 Git에서 제외한다. 자세한 절차는 [사전학습 가중치 안내](models/pretrained/README.md)를 따른다. 학습 결과 저장 구조는 아직 미정이다.
+실행 시 Drive에서 `/content` 아래로 복사하고 파일 크기·SHA-256·로드 결과를 확인한다. 가중치 파일은 Git에서 제외한다. 자세한 절차는 [사전학습 가중치 안내](models/pretrained/README.md)를 따른다.
 
 ## 첫 Colab 예제
 
