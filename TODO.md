@@ -31,7 +31,10 @@
 - 001·002·003·004는 보존하며 kimjaehak의 다음 새 실험 번호는 005임. 새 파일 작성 직전에 번호 충돌을 확인함. 실행 환경·코드 버전·측정값·검증 한계는 각 보고서에 기록함.
 - [byhyun 001 전처리 실데이터 검증](docs/eda/EXP_byhyun_001_preprocessing_check.md): Colab 저장 출력 검토 완료. AutoSplice에서 ELA·크롭 처리와 평가 규칙 관련 개수를 확인하고 ELA 후보와 크롭 크기를 제안함. 모델 성능은 측정하지 않음.
 - [byhyun 002 전처리 패딩·입력 검증](docs/eda/EXP_byhyun_002_preprocessing_padding_check.md): Colab 저장 출력 검토 완료. 수정된 입력 검사와 `pad_image`·`unpad_image`를 합성 입력과 AutoSplice val 조작 이미지 361장에서 확인함. 모델 성능은 측정하지 않음. byhyun의 새 실험 번호는 003임.
-- [kimjihwan 001 U-Net 동작 확인](docs/rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.md): Colab 저장 출력 검토 완료(2026-11-20). ResNet-50 U-Net의 3·6채널 입력, 작은 배치 학습, 체크포인트 재로드, 원본 해상도 추론과 평가 함수 연결이 A100에서 모두 동작함. 학습 설정은 임시값이며 기본 실험·성능 측정이 아님. kimjihwan의 다음 새 실험 번호는 002임.
+- [kimjihwan 001 U-Net 동작 확인](docs/rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.md): Colab 저장 출력 검토 완료(2026-11-20). ResNet-50 U-Net의 3·6채널 입력, 작은 배치 학습, 체크포인트 재로드, 원본 해상도 추론과 평가 함수 연결이 A100에서 모두 동작함. 학습 설정은 임시값이며 기본 실험·성능 측정이 아님.
+- [kimjihwan 002 RGB U-Net·손실 비교](docs/rgb_unet/EXP_kimjihwan_002_rgb_unet_loss_compare.md): Colab(L4) 저장 출력 검토 완료(2026-11-24). BCE·이미지별 Dice·BCE+Dice의 val F1 차이가 0.003 이내이며 규칙대로 `bce_dice`를 선택함. AutoSplice JPEG100 F1 0.969, JPEG90 0.279, JPEG75 0.005, CocoGlide 정상 픽셀 오탐률 0.970으로 압축 이력에 의존한 것으로 보임.
+- [kimjihwan 003 ELA U-Net](docs/ela_unet/EXP_kimjihwan_003_ela_unet_baseline.md): Colab(L4) 저장 출력 검토 완료(2026-11-24). AutoSplice JPEG100 F1 0.957, JPEG90 0.001, JPEG75 0.008, CocoGlide 정상 픽셀 오탐률 0.941로 RGB보다 나은 점이 없음.
+- [kimjihwan 004 RGB+ELA U-Net](docs/rgb_ela_unet/EXP_kimjihwan_004_rgb_ela_unet_baseline.md): Colab(L4) 저장 출력 검토 완료(2026-11-24). AutoSplice JPEG100 F1 0.972로 세 U-Net 중 가장 높으나 차이는 작고, JPEG90 0.005·JPEG75 0.008·CocoGlide 정상 픽셀 오탐률 0.976임. 세 U-Net 모두 JPEG 재압축과 CocoGlide에서 일반화하지 못해 JPEG 증강(T14)의 근거로 공유함. kimjihwan의 다음 새 실험 번호는 005임.
 
 
 ### 로컬 데이터 준비
@@ -72,9 +75,9 @@
 
 | ID | 작업 | 담당 | 상태 | 완료 조건 |
 | --- | --- | --- | --- | --- |
-| T09 | RGB U-Net 기본 실험 | kimjihwan | 진행 중 | 확정한 공통 조건으로 실행하고 노트북·보고서·점수표 기록 |
-| T10 | ELA U-Net 기본 실험 | 미정 | 미착수 | RGB 기본 실험과 비교 가능한 조건으로 실행·기록 |
-| T11 | RGB+ELA U-Net 기본 실험 | 미정 | 미착수 | 같은 이미지에서 RGB·ELA를 구성해 실행·기록 |
+| T09 | RGB U-Net 기본 실험 | kimjihwan | 검토 필요 | 확정한 공통 조건으로 실행하고 노트북·보고서·점수표 기록 |
+| T10 | ELA U-Net 기본 실험 | kimjihwan | 검토 필요 | RGB 기본 실험과 비교 가능한 조건으로 실행·기록 |
+| T11 | RGB+ELA U-Net 기본 실험 | kimjihwan | 검토 필요 | 같은 이미지에서 RGB·ELA를 구성해 실행·기록 |
 | T12 | CAT-Net 사전 학습 모델 검증 | kimjaehak | 진행 중 | 공식 입력·가중치·학습 데이터 중복 요건 확인 후 실행·기록 |
 | T13 | 기본 결과 비교·정성 분석 | 미정 | 미착수 | 조건별 점수와 성공·실패 사례·모델 분석을 보고서에 정리 |
 
