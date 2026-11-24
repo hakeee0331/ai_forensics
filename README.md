@@ -4,7 +4,7 @@ AI로 이미지의 일부를 바꾼 영역을 픽셀 단위로 찾아내는 프�
 
 ## 처음 참여할 때
 
-001 평가 함수 예제, 002 데이터 EDA, 003 CAT-Net 단일 이미지 확인과 004 CAT-Net 전체 테스트 평가의 저장 출력 검토를 마쳤다. 004에서 AutoSplice test·CocoGlide 전체 2,257장과 시각화 18개를 확인했다. U-Net의 작은 배치 학습 동작 확인은 완료했으며, CAT-Net의 005·006 학습·평가도 출력 검토를 마쳤다. 세 U-Net의 본격적인 비교 실험은 아직 진행하지 않았다. T05에서 기존 분할 유지를 확정했다. 학습 환경과 공통 비교 조건은 TODO에서 확인한다. 현재 진행 상태는 [TODO](TODO.md), 실제 측정 결과는 [결과 목록과 개별 보고서](docs/results.md)를 기준으로 확인한다.
+001 평가 함수 예제, 002 데이터 EDA, 003 CAT-Net 단일 이미지 확인과 004 CAT-Net 전체 테스트 평가의 저장 출력 검토를 마쳤다. 004에서 AutoSplice test·CocoGlide 전체 2,257장과 시각화 18개를 확인했다. U-Net의 작은 배치 학습 동작 확인은 완료했으며, CAT-Net의 005·006 학습·평가도 출력 검토를 마쳤다. 세 U-Net의 본격적인 비교 실험은 아직 진행하지 않았다. 007에서 Colab T4 기본 환경 검증을 마쳤다. T05에서 기존 분할 유지를 확정했으며, 공통 비교 조건 합의는 남아 있다. 현재 진행 상태는 [TODO](TODO.md), 실제 측정 결과는 [결과 목록과 개별 보고서](docs/results.md)를 기준으로 확인한다.
 
 | 문서 | 확인할 내용 |
 | --- | --- |
@@ -13,7 +13,7 @@ AI로 이미지의 일부를 바꾼 영역을 픽셀 단위로 찾아내는 프�
 | [전처리 함수 사용 안내](docs/preprocessing.md) | 공통 함수의 입력·출력·제약과 팀원 검증 항목 |
 | [CAT-Net 공통 함수](docs/catnet.md) | 공식 코드·가중치 준비, 모델 로드·JPEG 추론 호출 예시 |
 | [CAT-Net 학습 실행 안내](docs/catnet_training.md) | 005·006 실제 결과, 후속 실행·체크포인트 Drive 보관·결과 전달 |
-| [패키지 사용 제안](docs/package_proposal.md) | 학습 패키지 구성안. 아직 팀 합의·버전 확정 전임 |
+| [패키지 사용 제안](docs/package_proposal.md) | 학습 패키지 선택 근거와 모델별 의존성 |
 | [AGENTS](AGENTS.md) | 에이전트의 작업 범위와 결과 확인 규칙 |
 
 예제·EDA를 직접 실행하려면 완료된 원본을 복사해 자기 ID와 새 번호를 부여한 뒤 실행 안내를 따른다. Git은 `main` 통합, 작업 브랜치 유지, PR 검토 후 일반 병합 방식으로 운영한다. 커밋에는 `exp`·`feat`·`docs`·`fix` 접두어를 사용하며 자세한 내용은 [기여 규칙](CONTRIBUTING.md#커밋-규칙)을 따른다. 초기 프로젝트 파일은 역할별 여섯 커밋으로 등록하고 최초 push를 마쳤다. T04의 정책 정리는 완료했으며 팀원 접근 권한·작업 브랜치 구성·병합 담당자는 별도 운영 준비로 확인한다.
@@ -93,23 +93,24 @@ ai_forensics/
 
 수업 안내 PDF에는 최종 발표가 2026-12-08 예정이며 발표 형식·제출 요건은 추후 공지된다고 적혀 있다. 이후 공지는 별도로 확인해야 한다.
 
-## 필수 실행 환경 — 실험 시작 전 확정
+## Colab 기본 실행 환경
 
-기본 실행은 로컬 노트북을 VS Code에서 열고 Google Colab 확장의 원격 커널로 진행한다. 로컬 실행용 작성은 [data 안내](data/README.md)를 따른다. 실행 출력을 포함해 로컬 `.ipynb`를 저장하고, 그 파일을 기준으로 보고서를 작성한다. 아래 버전은 아직 합의하지 않았으므로, **기본 비교 실험을 시작하기 전에 이 표를 채워야 한다.** 현재 컴퓨터의 Python 버전을 팀 공통 버전으로 간주하지 않는다.
+기본 비교 실험은 VS Code에서 Colab 최신 GPU 런타임에 연결해 기본 설치된 Python·PyTorch·torchvision·NumPy·Pillow를 사용한다. 매 실행마다 실제 패키지 버전, CUDA·cuDNN, GPU 이름·메모리를 출력으로 남긴다. 세 U-Net의 기본 비교에서는 가능한 한 같은 패키지 조합을 사용하며, 도중에 핵심 패키지가 바뀌면 새 환경에서 작은 배치 동작을 점검하고 차이를 기록한다.
 
-| 항목 | 필수 버전·조건 | 상태 |
-| --- | --- | --- |
-| Python | 미정 | 실험 시작 전 확정 |
-| NumPy | 미정 | 공통 스크립트에 필요 |
-| Pillow | 미정 | 이미지 읽기·ELA 생성에 필요 |
-| 모델 프레임워크·관련 패키지 | 미정 | U-Net 구현과 CAT-Net 호환성 확인 후 확정 |
-| GPU·런타임 | Colab, 세부 조건 미정 | 장치명·메모리·런타임 정보를 실험별 기록 |
+| 2026-11-20~22 Colab 실행 기록 | 실제 사용한 환경 |
+| --- | --- |
+| Python · NumPy · Pillow | 3.13.16 · 2.4.6 · 11.3.0 |
+| PyTorch · torchvision | 2.14.1+cu130 · 0.29.1+cu130 |
+| CUDA · pandas · matplotlib | 13.0 · 2.2.3 · 3.10.0 |
+| GPU | U-Net 동작 확인 A100 40GB, CAT-Net 005·006 A100 80GB |
 
-버전 확정 후 재현 가능한 설치 명령을 이 문서에 추가한다. 각 노트북의 첫 실행 단계에서 필수 버전 일치 여부를 검사하고, 불일치하면 학습을 시작하지 않는다. GPU 종류처럼 완전히 통일하기 어려운 조건은 반드시 기록한다.
+공통 패키지는 런타임 기본 설치본을 사용한다. CAT-Net은 추가 의존성을 설치한다. 005·006에서 사용한 조합은 아래와 같다. [T03 검증 노트북](notebooks/eda/EXP_kimjaehak_007_colab_environment_check.ipynb)은 새 GPU 런타임에서 기본 패키지 버전을 기록하고, 설치 중 기본 패키지가 바뀌지 않도록 제약을 적용한다.
 
-현재 예제·EDA는 NumPy·Pillow·pandas·matplotlib이 필요하며 모델 프레임워크는 사용하지 않는다. 이 단계는 실제 버전과 설정을 출력으로 남겨 실행할 수 있다. 위 버전 일치 검사는 기본 비교 학습을 위한 규칙이며, 현재 노트북에서 팀 필수 버전을 검사하고 있다는 뜻은 아니다.
+```text
+%pip install pyjpegio==0.3.0 yacs==0.1.8 torch-dct==0.1.6 PyYAML==6.0.3 opencv-python==5.0.0.93 tqdm==4.67.3
+```
 
-PyTorch·torchvision 중심의 패키지 구성과 CAT-Net 환경 분리 방안은 [모델 구현 패키지 사용 제안](docs/package_proposal.md)에 정리했다. 팀 검토용 문서이며 패키지 버전·설치 방법을 확정한 것은 아니다.
+2026-11-24 Colab Tesla T4에서도 위 6개 패키지의 설치 전후 버전이 일치했고 네 모델의 작은 배치 검증을 통과했다. [007 보고서](docs/eda/EXP_kimjaehak_007_colab_environment_check.md)에 결과를 기록했다. 로컬 실행용 작성은 [데이터 안내](data/README.md)를 따른다.
 
 ## CAT-Net 사전학습 모델 평가 — T12
 
@@ -147,7 +148,7 @@ PyTorch·torchvision 중심의 패키지 구성과 CAT-Net 환경 분리 방안�
 
 현재 예제는 공유 Drive의 `AI_Forensics/datasets`에서 ZIP을, `AI_Forensics/project/scripts`에서 공통 코드·분할 CSV를 읽는다. `AI_Forensics` 바로가기를 MyDrive 최상위에 추가하고 로컬 `scripts/` 전체를 업로드한다. 노트북과 보고서는 로컬에서 관리한다. 정확한 폴더 구조와 최초 연결 절차는 [실행 안내](docs/workflow.md#2-공유-drive-준비)를 따른다.
 
-ZIP 복사·해시 확인·압축 해제는 `datasets.py`의 `prepare_dataset_zip(source, runtime_zip, destination, expected_hash)`으로 처리한다. `source`는 Drive ZIP, `runtime_zip`은 런타임에 복사할 ZIP, `destination`은 해제 위치이며 함수는 해제 위치를 반환한다. Drive 마운트와 각 경로·기대 해시는 노트북에서 지정한다. ZIP은 `/content`에 복사하고 데이터는 `/content/datasets`에 해제해 읽는다. 예제는 코드·분할·데이터 해시와 실제 패키지 버전을 출력한다. 모델 학습 환경의 팀 표준 버전을 확정하는 작업과는 별개다.
+ZIP 복사·해시 확인·압축 해제는 `datasets.py`의 `prepare_dataset_zip(source, runtime_zip, destination, expected_hash)`으로 처리한다. `source`는 Drive ZIP, `runtime_zip`은 런타임에 복사할 ZIP, `destination`은 해제 위치이며 함수는 해제 위치를 반환한다. Drive 마운트와 각 경로·기대 해시는 노트북에서 지정한다. ZIP은 `/content`에 복사하고 데이터는 `/content/datasets`에 해제해 읽는다. 예제는 코드·분할·데이터 해시와 실제 패키지 버전을 출력한다. 학습 환경은 007에서 검증했다.
 
 AutoSplice는 [고정 CSV](scripts/splits/autosplice_seed42.csv)를 모든 노트북에서 읽는다. 원본 ID 기준 train 1,818개, val 227개, test 228개이며 같은 원본의 조작본과 JPEG 품질 변형은 같은 split이다. CocoGlide는 외부 테스트용으로 유지한다. [분할 기록](scripts/splits/README.md)에 시드·생성 방식·재현 명령이 있다.
 

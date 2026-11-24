@@ -10,7 +10,7 @@
 | --- | --- | --- | --- | --- |
 | T01 | 프로젝트 구조·운영 규칙 구성 | kimjaehak | 완료 | 세 폴더와 모델·EDA 하위 폴더, 운영 문서, .gitignore 배치 |
 | T02 | 공통 전처리·평가 함수 초안 | kimjaehak | 완료 | 이미지·마스크 읽기, 동일 위치 크롭, ELA, confusion counts·F1·IoU·오탐률 함수 제공 |
-| T03 | 실행 환경 버전 확정 | 미정 | 검토 필요 | Python·패키지 버전·설치 방법을 README에 명시하고 Colab에서 확인 |
+| T03 | Colab 기본 실행 환경 확정·검증 | kimjaehak | 완료 | 최신 기본 런타임 사용 규칙·실제 버전 기록·CAT-Net 추가 설치를 문서화하고 새 GPU 세션의 007 저장 출력 확인 |
 | T04 | Git 운영 정책 확정 | 미정 | 완료 | 통합·작업 브랜치·병합·커밋 정책과 팀 작업 절차 명시 |
 | T05 | 데이터셋 EDA·분할 확정 | seonghun | 완료 | 데이터·마스크·분할 검토와 확인된 교차 중복 기록, 기존 분할 유지 확정 |
 | T06 | 공통 비교·평가 규약 확정 | 미정 | 검증 필요 | ELA 품질·배율·서브샘플링·처리 순서, 임계값·해상도·집계·빈 마스크 규칙, 학습 조건 합의 |
@@ -28,7 +28,7 @@
 - [002 데이터 EDA](docs/eda/EXP_kimjaehak_002_dataset_eda.md): Colab 실행·출력 검토 완료. 이미지 14,160개·마스크 2,222개의 읽기·값·대응 크기 오류와 파일·RGB 해시 중복은 0개임. AutoSplice train 전체에서 256×256 크롭이 가능하지만 학습 크기는 미확정임.
 - [003 CAT-Net 단일 이미지 확인](docs/catnet/EXP_kimjaehak_003_catnet_pretrained_check_singleImage.md): 모델 로드·train 한 장의 입력·추론·시각화·평가 완료. F1 0.906346, IoU 0.828732는 단일 이미지 결과이며 전체 성능이 아님.
 - [004 CAT-Net 전체 테스트 평가](docs/catnet/EXP_kimjaehak_004_catnet_pretrained_evaluation.md): AutoSplice test·CocoGlide 전체 2,257장 집계와 그림 18개 검토 완료. CocoGlide F1 0.363874·IoU 0.287961·정상 픽셀 오탐률 0.166143이며 PNG→JPEG100·4:4:4 입력 조건과 한계를 기록함.
-- 001·002·003·004·005·006은 저장 출력 검토를 마쳐 보존함. kimjaehak의 다음 새 실험 번호는 007임. 새 파일 작성 직전에 번호 충돌을 확인함. 실행 환경·코드 버전·측정값·검증 한계는 각 보고서에 기록함.
+- 001·002·003·004·005·006·007은 저장 출력 검토를 마쳐 보존함. kimjaehak의 다음 새 실험 번호는 008임. 새 파일 작성 직전에 번호 충돌을 확인함. 실행 환경·코드 버전·측정값·검증 한계는 각 보고서에 기록함.
 - [byhyun 001 전처리 실데이터 검증](docs/eda/EXP_byhyun_001_preprocessing_check.md): Colab 저장 출력 검토 완료. AutoSplice에서 ELA·크롭 처리와 평가 규칙 관련 개수를 확인하고 ELA 후보와 크롭 크기를 제안함. 모델 성능은 측정하지 않음.
 - [byhyun 002 전처리 패딩·입력 검증](docs/eda/EXP_byhyun_002_preprocessing_padding_check.md): Colab 저장 출력 검토 완료. 수정된 입력 검사와 `pad_image`·`unpad_image`를 합성 입력과 AutoSplice val 조작 이미지 361장에서 확인함. 모델 성능은 측정하지 않음. byhyun의 새 실험 번호는 003임.
 - [kimjihwan 001 U-Net 동작 확인](docs/rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.md): Colab 저장 출력 검토 완료(2026-11-20). ResNet-50 U-Net의 3·6채널 입력, 작은 배치 학습, 체크포인트 재로드, 원본 해상도 추론과 평가 함수 연결이 A100에서 모두 동작함. 학습 설정은 임시값이며 기본 실험·성능 측정이 아님. kimjihwan의 다음 새 실험 번호는 002임.
@@ -49,7 +49,7 @@
 
 ### 준비 항목별 상태
 
-- **T03 — 검토 필요:** [패키지 사용 제안서](docs/package_proposal.md)의 검토와 PyTorch·torchvision 및 CAT-Net 의존성의 Colab 호환성 확인이 필요함. 003의 단일 이미지와 004의 전체 테스트에서 CAT-Net 추론 환경을 확인함. 005·006에서는 A100 학습·역전파·재로드 동작도 확인함. 006의 학습 안정성 개선과 팀 공통 버전·재현 설치 절차 확정은 남아 있음.
+- **T03 — 완료 (2026-11-24):** [007 보고서](docs/eda/EXP_kimjaehak_007_colab_environment_check.md)에서 Colab Tesla T4의 기본 패키지 버전 유지, 세 U-Net의 갱신·재로드·평가 연결과 CAT-Net JPEG 추론·출력부 갱신을 확인함. H100은 미검증임.
 - **T04 — 완료:** [기여 규칙](CONTRIBUTING.md#작업-브랜치)에 `main` 통합, 작업 브랜치 유지·순차 작업, 다른 팀원 1명 승인, 지정 담당자의 일반 병합을 명시함. 커밋 접두어 `exp`·`feat`·`docs`·`fix`와 PR의 변경 내용·확인 결과·남은 사항 형식을 확정함. 실제 운영 준비는 아래에서 별도로 확인함.
 - **T05 완료 (2026-11-24).** seonghun이 train 마스크 표본 9장과 근접 중복을 검토함. 팀은 확인된 train–val 중복 1쌍의 범위가 작다고 판단해 기존 seed 42 분할 유지를 확정함. train 내부 중복 9쌍도 유지함. [분할 결정](scripts/splits/README.md#분할-유지-결정--2026-11-24)
 - 저장 품질 차이(정상 Q75·JPEG100 조작본 Q100)의 학습·평가 영향과 학습용 품질·품질별 평가 보고는 T06에서 논의함. JPEG 증강은 기본 비교 이후 T14에서 검토함. [JPEG 저장 이력](docs/eda/EXP_seonghun_003_jpeg_history_check.md)

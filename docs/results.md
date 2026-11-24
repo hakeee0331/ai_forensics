@@ -55,6 +55,7 @@ AutoSplice는 [고정 분할 CSV](../scripts/splits/autosplice_seed42.csv)를 �
 
 | 분석·보고서 | 데이터셋 | 주요 확인 내용 | 상태 | 노트북 |
 | --- | --- | --- | --- | --- |
+| [EXP_kimjaehak_007_colab_environment_check](eda/EXP_kimjaehak_007_colab_environment_check.md) | 합성 JPEG·마스크 | Colab 기본 환경·세 U-Net·CAT-Net 추가 의존성 및 작은 배치 검증 | 완료 · Tesla T4, 재로드 최대 오차 0.0, CAT-Net 출력부 갱신 통과 (2026-11-24) | [노트북](../notebooks/eda/EXP_kimjaehak_007_colab_environment_check.ipynb) |
 | [EXP_kimjaehak_001_evaluation_example](eda/EXP_kimjaehak_001_evaluation_example.md) | AutoSplice, CocoGlide | 공통 ZIP 준비 함수·고정 ID 분할·파일 연결·이미지 및 마스크 표시·평가 함수 사용법 | 완료: Colab 저장 출력 확인 (2026-11-17) | [노트북](../notebooks/eda/EXP_kimjaehak_001_evaluation_example.ipynb) |
 | [EXP_kimjaehak_002_dataset_eda](eda/EXP_kimjaehak_002_dataset_eda.md) | AutoSplice, CocoGlide | 전체 파일·마스크·분할·정확한 중복 검사, AutoSplice train 분포·마스크 시각화 | 완료: Colab 저장 출력 확인, 2026-11-17 실행 후 기존 분할 유지 확정(2026-11-24) | [노트북](../notebooks/eda/EXP_kimjaehak_002_dataset_eda.ipynb) |
 | [EXP_byhyun_001_preprocessing_check](eda/EXP_byhyun_001_preprocessing_check.md) | AutoSplice | 이미지·마스크·정상 원본 크기·EXIF 정합성, Crop·뒤집기와 ELA 순서, ELA 수치 처리, 정상·조작 파일의 JPEG 저장 이력, ELA 설정 후보 비교, Crop 크기, 평가 규칙 확인 | 완료: Colab 저장 출력 확인, T06 규약 확정 대기 (2026-11-18) | [노트북](../notebooks/eda/EXP_byhyun_001_preprocessing_check.ipynb) |
