@@ -2,7 +2,7 @@
 
 - CAT-Net v2의 단일 이미지 확인과 AutoSplice test·CocoGlide 전체 2,257장 평가, 저장된 그림 18개 검토를 마쳤다(2026-11-20).
 - 여러 모델 간 비교·학습·파인튜닝은 아직 실행하지 않았다. 평가 함수 사용 예제, 데이터 EDA, 전처리 실데이터 검증은 Colab 실행·저장 출력 검토를 완료했다(2026-11-17~18).
-- T05의 분할 최종 확정과 T06의 공통 규약 확정, 팀원 검증은 남아 있다. 설명용 예측의 계산값은 모델 점수표에 넣지 않는다.
+- T05에서 기존 분할 유지를 확정했다. 검증 점수와 체크포인트 선택을 해석할 때 train–val에 같은 사진 1쌍이 있음을 고려한다. [분할 결정](../scripts/splits/README.md#분할-유지-결정--2026-11-24) 설명용 예측의 계산값은 모델 점수표에 넣지 않는다.
 
 ## 평가 조건
 
@@ -30,13 +30,13 @@ AutoSplice는 [고정 분할 CSV](../scripts/splits/autosplice_seed42.csv)를 �
 | 분석·보고서 | 데이터셋 | 주요 확인 내용 | 상태 | 노트북 |
 | --- | --- | --- | --- | --- |
 | [EXP_kimjaehak_001_evaluation_example](eda/EXP_kimjaehak_001_evaluation_example.md) | AutoSplice, CocoGlide | 공통 ZIP 준비 함수·고정 ID 분할·파일 연결·이미지 및 마스크 표시·평가 함수 사용법 | 완료: Colab 저장 출력 확인 (2026-11-17) | [노트북](../notebooks/eda/EXP_kimjaehak_001_evaluation_example.ipynb) |
-| [EXP_kimjaehak_002_dataset_eda](eda/EXP_kimjaehak_002_dataset_eda.md) | AutoSplice, CocoGlide | 전체 파일·마스크·분할·정확한 중복 검사, AutoSplice train 분포·마스크 시각화 | 완료: Colab 저장 출력 확인, T05 최종 확정 대기 (2026-11-17) | [노트북](../notebooks/eda/EXP_kimjaehak_002_dataset_eda.ipynb) |
+| [EXP_kimjaehak_002_dataset_eda](eda/EXP_kimjaehak_002_dataset_eda.md) | AutoSplice, CocoGlide | 전체 파일·마스크·분할·정확한 중복 검사, AutoSplice train 분포·마스크 시각화 | 완료: Colab 저장 출력 확인, 2026-11-17 실행 후 기존 분할 유지 확정(2026-11-24) | [노트북](../notebooks/eda/EXP_kimjaehak_002_dataset_eda.ipynb) |
 | [EXP_byhyun_001_preprocessing_check](eda/EXP_byhyun_001_preprocessing_check.md) | AutoSplice | 이미지·마스크·정상 원본 크기·EXIF 정합성, Crop·뒤집기와 ELA 순서, ELA 수치 처리, 정상·조작 파일의 JPEG 저장 이력, ELA 설정 후보 비교, Crop 크기, 평가 규칙 확인 | 완료: Colab 저장 출력 확인, T06 규약 확정 대기 (2026-11-18) | [노트북](../notebooks/eda/EXP_byhyun_001_preprocessing_check.ipynb) |
 | [EXP_kimjihwan_001_unet_pipeline_check](rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.md) | AutoSplice | ResNet-50 U-Net(RGB·ELA·RGB+ELA)의 사전학습 가중치 로드, 3·6채널 입출력 크기, 작은 배치 학습, 체크포인트 재로드, 원본 해상도 추론·평가 함수 연결 동작 확인. 학습 설정은 임시값, 성능 미측정 | 완료: Colab 저장 출력 확인, T03·T06 확정 대기 (2026-11-20) | [노트북](../notebooks/rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.ipynb) |
 EDA에는 모델 성능 점수를 만들지 않고 분석 보고서와 노트북을 연결한다.
 | [EXP_byhyun_002_preprocessing_padding_check](eda/EXP_byhyun_002_preprocessing_padding_check.md) | AutoSplice | 수정된 입력 검사(`foreground_value`·`scale`)와 평가용 패딩·언패딩 함수 확인(합성 입력, val 조작 이미지 361장) | 완료: Colab 저장 출력 확인 (2026-11-20) | [노트북](../notebooks/eda/EXP_byhyun_002_preprocessing_padding_check.ipynb) |
-| [EXP_seonghun_001_near_duplicate_check](eda/EXP_seonghun_001_near_duplicate_check.md) | AutoSplice, CocoGlide | 정상 원본 2,785장의 perceptual hash(pHash·dHash) 근접 중복 검사, 그룹 간 후보 사람 확인 | 완료: Colab 저장 출력 확인, T05 분할 확정 대기 (2026-11-23) | [노트북](../notebooks/eda/EXP_seonghun_001_near_duplicate_check.ipynb) |
-| [EXP_seonghun_002_near_duplicate_feature_check](eda/EXP_seonghun_002_near_duplicate_feature_check.md) | AutoSplice, CocoGlide | ResNet-50 특징 유사도·좌우반전 pHash로 모든 쌍의 근접 중복 검사, 분할 담당자에게 넘길 중복 묶음 정리 | 완료: Colab 저장 출력 확인, T05 분할 확정 대기 (2026-11-23) | [노트북](../notebooks/eda/EXP_seonghun_002_near_duplicate_feature_check.ipynb) |
+| [EXP_seonghun_001_near_duplicate_check](eda/EXP_seonghun_001_near_duplicate_check.md) | AutoSplice, CocoGlide | 정상 원본 2,785장의 perceptual hash(pHash·dHash) 근접 중복 검사, 그룹 간 후보 사람 확인 | 완료: Colab 저장 출력 확인, 2026-11-23 검토 후 기존 분할 유지 확정(2026-11-24) | [노트북](../notebooks/eda/EXP_seonghun_001_near_duplicate_check.ipynb) |
+| [EXP_seonghun_002_near_duplicate_feature_check](eda/EXP_seonghun_002_near_duplicate_feature_check.md) | AutoSplice, CocoGlide | ResNet-50 특징 유사도·좌우반전 pHash로 모든 쌍의 근접 중복 검사, 분할 담당자에게 넘길 중복 묶음 정리 | 완료: Colab 저장 출력 확인, 2026-11-23 검토 후 기존 분할 유지 확정(2026-11-24) | [노트북](../notebooks/eda/EXP_seonghun_002_near_duplicate_feature_check.ipynb) |
 | [EXP_seonghun_003_jpeg_history_check](eda/EXP_seonghun_003_jpeg_history_check.md) | AutoSplice, CocoGlide | 전체 14,160장의 JPEG 양자화 테이블로 저장 품질·서브샘플링 확인, 정상·조작 저장 이력 비교 | 완료: Colab 저장 출력 확인, 학습·평가 조건 논의 필요 (2026-11-23) | [노트북](../notebooks/eda/EXP_seonghun_003_jpeg_history_check.ipynb) |
 
 - 2026-11-17: 002 코드 셀 10개·오류 출력 0개·그림 3개를 확인함. 이미지 14,160개·마스크 2,222개의 읽기·값·대응 크기 오류와 파일·RGB 해시 중복이 0개임. 기존 해제 파일을 재사용했으며 근접 중복 검사는 미실행임. 팀원의 표본 마스크 시각 검토와 분할 최종 확정이 남아 T05는 검토 필요 상태임.
