@@ -1,8 +1,9 @@
 # 실험 결과
 
 - CAT-Net v2의 단일 이미지 확인과 AutoSplice test·CocoGlide 전체 2,257장 평가, 저장된 그림 18개 검토를 마쳤다(2026-11-20).
-- 여러 모델 간 비교·학습·파인튜닝은 아직 실행하지 않았다. 평가 함수 사용 예제, 데이터 EDA, 전처리 실데이터 검증은 Colab 실행·저장 출력 검토를 완료했다(2026-11-17~18).
+- U-Net의 작은 배치 학습 동작 확인은 완료했으며, 세 U-Net의 본격적인 모델 비교는 아직 실행하지 않았다. CAT-Net 005·006의 학습·평가는 저장 출력 검토를 마쳤다(2026-11-22). 평가 함수 사용 예제, 데이터 EDA, 전처리 실데이터 검증은 Colab 실행·저장 출력 검토를 완료했다(2026-11-17~18).
 - T05에서 기존 분할 유지를 확정했다. 검증 점수와 체크포인트 선택을 해석할 때 train–val에 같은 사진 1쌍이 있음을 고려한다. [분할 결정](../scripts/splits/README.md#분할-유지-결정--2026-11-24) 설명용 예측의 계산값은 모델 점수표에 넣지 않는다.
+- T06의 공통 비교 규약 확정과 팀원 검증은 남아 있다.
 
 ## 평가 조건
 
@@ -25,19 +26,46 @@ AutoSplice는 [고정 분할 CSV](../scripts/splits/autosplice_seed42.csv)를 �
 
 실험·보고서 열에는 개별 보고서 링크를, 노트북 열에는 대응하는 노트북 링크를 넣는다. 미실행·실패·미측정 항목을 0으로 기록하지 않는다. 노트북 출력·보고서·이 표의 숫자는 일치해야 한다.
 
+## CAT-Net 학습 결과 — 2026-11-22
+
+005·006은 A100에서 같은 환경·설정 서명·데이터 목록으로 실행함. 공통 평가 조건은 004와 같이 임계값 0.5·원본 해상도·이미지별 평균이며 CocoGlide는 PNG→JPEG100·4:4:4임. 004와 GPU·수치 연산 설정은 다름. 각 노트북의 2,257행 혼동행렬에서 평균을 재검산함.
+
+**005는 epoch 15 출력부 학습 모델, 006은 학습 개선 실패로 선택한 epoch 0 사전학습 모델임. 006을 파인튜닝 성능으로 비교하면 안 됨.** 각 보고서에 학습 이력·환경·체크포인트 해시·그림 검토를 기록함. Drive 보관·팀원 시각 검토 확인은 남아 있음. [학습·보관 안내](catnet_training.md)를 참고함.
+
+| 실험·보고서 | 평가 모델 | 데이터·조건 | 조작/정상 수 | Pixel F1 | IoU | 정상 픽셀 오탐률 | 노트북 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [005](catnet/EXP_kimjaehak_005_catnet_transfer_learning.md) | 출력부 학습 epoch 15 | AutoSplice JPEG100 | 335 / 0 | 0.927879 | 0.875235 | 해당 없음 | [노트북](../notebooks/catnet/EXP_kimjaehak_005_catnet_transfer_learning.ipynb) |
+| [005](catnet/EXP_kimjaehak_005_catnet_transfer_learning.md) | 출력부 학습 epoch 15 | AutoSplice JPEG90 | 335 / 0 | 0.492831 | 0.410191 | 해당 없음 | [노트북](../notebooks/catnet/EXP_kimjaehak_005_catnet_transfer_learning.ipynb) |
+| [005](catnet/EXP_kimjaehak_005_catnet_transfer_learning.md) | 출력부 학습 epoch 15 | AutoSplice JPEG75 | 335 / 0 | 0.018991 | 0.011797 | 해당 없음 | [노트북](../notebooks/catnet/EXP_kimjaehak_005_catnet_transfer_learning.ipynb) |
+| [005](catnet/EXP_kimjaehak_005_catnet_transfer_learning.md) | 출력부 학습 epoch 15 | AutoSplice original | 0 / 228 | 해당 없음 | 해당 없음 | 0.000335 | [노트북](../notebooks/catnet/EXP_kimjaehak_005_catnet_transfer_learning.ipynb) |
+| [005](catnet/EXP_kimjaehak_005_catnet_transfer_learning.md) | 출력부 학습 epoch 15 | CocoGlide PNG→JPEG100·4:4:4 | 512 / 0 | 0.326771 | 0.227717 | 해당 없음 | [노트북](../notebooks/catnet/EXP_kimjaehak_005_catnet_transfer_learning.ipynb) |
+| [005](catnet/EXP_kimjaehak_005_catnet_transfer_learning.md) | 출력부 학습 epoch 15 | CocoGlide PNG→JPEG100·4:4:4 | 0 / 512 | 해당 없음 | 해당 없음 | 0.807781 | [노트북](../notebooks/catnet/EXP_kimjaehak_005_catnet_transfer_learning.ipynb) |
+| [006](catnet/EXP_kimjaehak_006_catnet_finetuning.md) | 학습 전 epoch 0 | AutoSplice JPEG100 | 335 / 0 | 0.881534 | 0.804299 | 해당 없음 | [노트북](../notebooks/catnet/EXP_kimjaehak_006_catnet_finetuning.ipynb) |
+| [006](catnet/EXP_kimjaehak_006_catnet_finetuning.md) | 학습 전 epoch 0 | AutoSplice JPEG90 | 335 / 0 | 0.804909 | 0.717195 | 해당 없음 | [노트북](../notebooks/catnet/EXP_kimjaehak_006_catnet_finetuning.ipynb) |
+| [006](catnet/EXP_kimjaehak_006_catnet_finetuning.md) | 학습 전 epoch 0 | AutoSplice JPEG75 | 335 / 0 | 0.402966 | 0.320134 | 해당 없음 | [노트북](../notebooks/catnet/EXP_kimjaehak_006_catnet_finetuning.ipynb) |
+| [006](catnet/EXP_kimjaehak_006_catnet_finetuning.md) | 학습 전 epoch 0 | AutoSplice original | 0 / 228 | 해당 없음 | 해당 없음 | 0.146547 | [노트북](../notebooks/catnet/EXP_kimjaehak_006_catnet_finetuning.ipynb) |
+| [006](catnet/EXP_kimjaehak_006_catnet_finetuning.md) | 학습 전 epoch 0 | CocoGlide PNG→JPEG100·4:4:4 | 512 / 0 | 0.363896 | 0.287980 | 해당 없음 | [노트북](../notebooks/catnet/EXP_kimjaehak_006_catnet_finetuning.ipynb) |
+| [006](catnet/EXP_kimjaehak_006_catnet_finetuning.md) | 학습 전 epoch 0 | CocoGlide PNG→JPEG100·4:4:4 | 0 / 512 | 해당 없음 | 해당 없음 | 0.166196 | [노트북](../notebooks/catnet/EXP_kimjaehak_006_catnet_finetuning.ipynb) |
+
+005는 JPEG100 F1이 004의 0.881532에서 0.927879로 개선됐지만 JPEG90·75와 CocoGlide에서는 하락함. 정상 CocoGlide의 평균 픽셀 오탐률은 0.166143에서 0.807781로 증가함. JPEG75 335장 중 286장에서 예측 양성이 없고 정상 CocoGlide 512장 모두에서 오탐이 발생함. JPEG 이력에 의존한 학습 가능성은 후속 가설이며 원인 확정이 아님.
+
+006은 epoch 1 평균 train loss 22,663.437917, epoch 1~5 val F1·IoU·정상 FPR 모두 0으로 검출 성능이 붕괴함. val loss가 학습 전보다 개선되지 않아 epoch 0으로 복원함. 저장·재로드·평가 절차의 완료와 학습 개선 실패를 구분함. 후속 조건은 train·val에서 검토하고 테스트로 임계값·학습률을 고르지 않음.
+
 ## EDA
 
 | 분석·보고서 | 데이터셋 | 주요 확인 내용 | 상태 | 노트북 |
 | --- | --- | --- | --- | --- |
+| [EXP_kimjaehak_007_colab_environment_check](eda/EXP_kimjaehak_007_colab_environment_check.md) | 합성 JPEG·마스크 | Colab 기본 환경·세 U-Net·CAT-Net 추가 의존성 및 작은 배치 검증 | 완료 · Tesla T4, 재로드 최대 오차 0.0, CAT-Net 출력부 갱신 통과 (2026-11-24) | [노트북](../notebooks/eda/EXP_kimjaehak_007_colab_environment_check.ipynb) |
 | [EXP_kimjaehak_001_evaluation_example](eda/EXP_kimjaehak_001_evaluation_example.md) | AutoSplice, CocoGlide | 공통 ZIP 준비 함수·고정 ID 분할·파일 연결·이미지 및 마스크 표시·평가 함수 사용법 | 완료: Colab 저장 출력 확인 (2026-11-17) | [노트북](../notebooks/eda/EXP_kimjaehak_001_evaluation_example.ipynb) |
 | [EXP_kimjaehak_002_dataset_eda](eda/EXP_kimjaehak_002_dataset_eda.md) | AutoSplice, CocoGlide | 전체 파일·마스크·분할·정확한 중복 검사, AutoSplice train 분포·마스크 시각화 | 완료: Colab 저장 출력 확인, 2026-11-17 실행 후 기존 분할 유지 확정(2026-11-24) | [노트북](../notebooks/eda/EXP_kimjaehak_002_dataset_eda.ipynb) |
 | [EXP_byhyun_001_preprocessing_check](eda/EXP_byhyun_001_preprocessing_check.md) | AutoSplice | 이미지·마스크·정상 원본 크기·EXIF 정합성, Crop·뒤집기와 ELA 순서, ELA 수치 처리, 정상·조작 파일의 JPEG 저장 이력, ELA 설정 후보 비교, Crop 크기, 평가 규칙 확인 | 완료: Colab 저장 출력 확인, T06 규약 확정 대기 (2026-11-18) | [노트북](../notebooks/eda/EXP_byhyun_001_preprocessing_check.ipynb) |
 | [EXP_kimjihwan_001_unet_pipeline_check](rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.md) | AutoSplice | ResNet-50 U-Net(RGB·ELA·RGB+ELA)의 사전학습 가중치 로드, 3·6채널 입출력 크기, 작은 배치 학습, 체크포인트 재로드, 원본 해상도 추론·평가 함수 연결 동작 확인. 학습 설정은 임시값, 성능 미측정 | 완료: Colab 저장 출력 확인, T03·T06 확정 대기 (2026-11-20) | [노트북](../notebooks/rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.ipynb) |
-EDA에는 모델 성능 점수를 만들지 않고 분석 보고서와 노트북을 연결한다.
 | [EXP_byhyun_002_preprocessing_padding_check](eda/EXP_byhyun_002_preprocessing_padding_check.md) | AutoSplice | 수정된 입력 검사(`foreground_value`·`scale`)와 평가용 패딩·언패딩 함수 확인(합성 입력, val 조작 이미지 361장) | 완료: Colab 저장 출력 확인 (2026-11-20) | [노트북](../notebooks/eda/EXP_byhyun_002_preprocessing_padding_check.ipynb) |
 | [EXP_seonghun_001_near_duplicate_check](eda/EXP_seonghun_001_near_duplicate_check.md) | AutoSplice, CocoGlide | 정상 원본 2,785장의 perceptual hash(pHash·dHash) 근접 중복 검사, 그룹 간 후보 사람 확인 | 완료: Colab 저장 출력 확인, 2026-11-23 검토 후 기존 분할 유지 확정(2026-11-24) | [노트북](../notebooks/eda/EXP_seonghun_001_near_duplicate_check.ipynb) |
 | [EXP_seonghun_002_near_duplicate_feature_check](eda/EXP_seonghun_002_near_duplicate_feature_check.md) | AutoSplice, CocoGlide | ResNet-50 특징 유사도·좌우반전 pHash로 모든 쌍의 근접 중복 검사, 분할 담당자에게 넘길 중복 묶음 정리 | 완료: Colab 저장 출력 확인, 2026-11-23 검토 후 기존 분할 유지 확정(2026-11-24) | [노트북](../notebooks/eda/EXP_seonghun_002_near_duplicate_feature_check.ipynb) |
 | [EXP_seonghun_003_jpeg_history_check](eda/EXP_seonghun_003_jpeg_history_check.md) | AutoSplice, CocoGlide | 전체 14,160장의 JPEG 양자화 테이블로 저장 품질·서브샘플링 확인, 정상·조작 저장 이력 비교 | 완료: Colab 저장 출력 확인, 학습·평가 조건 논의 필요 (2026-11-23) | [노트북](../notebooks/eda/EXP_seonghun_003_jpeg_history_check.ipynb) |
+
+EDA에는 모델 성능 점수를 만들지 않고 분석 보고서와 노트북을 연결한다.
 
 - 2026-11-17: 002 코드 셀 10개·오류 출력 0개·그림 3개를 확인함. 이미지 14,160개·마스크 2,222개의 읽기·값·대응 크기 오류와 파일·RGB 해시 중복이 0개임. 기존 해제 파일을 재사용했으며 근접 중복 검사는 미실행임. 팀원의 표본 마스크 시각 검토와 분할 최종 확정이 남아 T05는 검토 필요 상태임.
 - 2026-11-18: [byhyun 001](eda/EXP_byhyun_001_preprocessing_check.md) 코드 셀 12개·오류 출력 0개·그림 3개를 확인함. train 조작 이미지 2,925장에서 이미지·마스크·정상 원본의 크기 불일치와 EXIF 방향 이상은 0개임. 샘플 200장에서 정상 원본은 모두 Q75·4:2:0, 조작본은 모두 Q100·4:2:0 JPEG임. ELA 후보·scale·Crop 크기·패딩 필요 여부는 제안이며, 임계값·학습 조건·ELA 최종 설정은 T06에서 확정해야 함. 마스크 밖이 원본과 크게 다른 이미지가 100장 중 20장이라 T05의 마스크 시각 검토가 필요함.
