@@ -34,7 +34,11 @@
 - [kimjihwan 001 U-Net 동작 확인](docs/rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.md): Colab 저장 출력 검토 완료(2026-11-20). ResNet-50 U-Net의 3·6채널 입력, 작은 배치 학습, 체크포인트 재로드, 원본 해상도 추론과 평가 함수 연결이 A100에서 모두 동작함. 학습 설정은 임시값이며 기본 실험·성능 측정이 아님.
 - [kimjihwan 002 RGB U-Net·손실 비교](docs/rgb_unet/EXP_kimjihwan_002_rgb_unet_loss_compare.md): Colab(L4) 저장 출력 검토 완료(2026-11-24). BCE·이미지별 Dice·BCE+Dice의 val F1 차이가 0.003 이내이며 규칙대로 `bce_dice`를 선택함. AutoSplice JPEG100 F1 0.969, JPEG90 0.279, JPEG75 0.005, CocoGlide 정상 픽셀 오탐률 0.970으로 압축 이력에 의존한 것으로 보임.
 - [kimjihwan 003 ELA U-Net](docs/ela_unet/EXP_kimjihwan_003_ela_unet_baseline.md): Colab(L4) 저장 출력 검토 완료(2026-11-24). AutoSplice JPEG100 F1 0.957, JPEG90 0.001, JPEG75 0.008, CocoGlide 정상 픽셀 오탐률 0.941로 RGB보다 나은 점이 없음.
-- [kimjihwan 004 RGB+ELA U-Net](docs/rgb_ela_unet/EXP_kimjihwan_004_rgb_ela_unet_baseline.md): Colab(L4) 저장 출력 검토 완료(2026-11-24). AutoSplice JPEG100 F1 0.972로 세 U-Net 중 가장 높으나 차이는 작고, JPEG90 0.005·JPEG75 0.008·CocoGlide 정상 픽셀 오탐률 0.976임. 세 U-Net 모두 JPEG 재압축과 CocoGlide에서 일반화하지 못해 JPEG 증강(T14)의 근거로 공유함. kimjihwan의 다음 새 실험 번호는 005임.
+- [kimjihwan 004 RGB+ELA U-Net](docs/rgb_ela_unet/EXP_kimjihwan_004_rgb_ela_unet_baseline.md): Colab(L4) 저장 출력 검토 완료(2026-11-24). AutoSplice JPEG100 F1 0.972로 세 U-Net 중 가장 높으나 차이는 작고, JPEG90 0.005·JPEG75 0.008·CocoGlide 정상 픽셀 오탐률 0.976임. 세 U-Net 모두 JPEG 재압축과 CocoGlide에서 일반화하지 못해 JPEG 증강(T14)의 근거로 공유함.
+- [kimjihwan 006 압축 흔적 측정](docs/eda/EXP_kimjihwan_006_compression_trace_check.md): Colab CPU 저장 출력 검토 완료(2026-11-25). AutoSplice JPEG100 조작본은 마스크 밖에만 Q75 압축 흔적이 남아 학습 없이 위치를 찾을 수 있음(AUC 0.92). CocoGlide에는 격자 흔적이 없고 마스크 밖이 원본과 같은 부분 편집임.
+- [kimjihwan 005 JPEG 증강](docs/rgb_ela_unet/EXP_kimjihwan_005_rgb_ela_unet_jpeg_aug.md): Colab(T4) 저장 출력 검토 완료(2026-11-25). AutoSplice JPEG90·75 F1이 0.005·0.008에서 0.787·0.794로 회복됐지만 정상 픽셀 오탐률이 0.323으로 올랐고 CocoGlide JPEG100은 위치 정보가 없음. Drive 용량 초과로 epoch 10 체크포인트를 잃음(공유 폴더 005 파일은 epoch 3).
+- [kimjihwan 007 정상 이미지 포함](docs/rgb_ela_unet/EXP_kimjihwan_007_rgb_ela_unet_grid_break.md): Colab(T4) 저장 출력 검토 완료(2026-11-25). 의도한 격자 깨기가 적용되지 않아 사실상 "005 + 정상 이미지"임. AutoSplice 정상 오탐률 0.051, CocoGlide JPEG100 정상 오탐률 0.922.
+- [kimjihwan 008 격자 깨기](docs/rgb_ela_unet/EXP_kimjihwan_008_rgb_ela_unet_grid_break_fixed.md): Colab(T4) 저장 출력 검토 완료(2026-11-25). 007과 격자 깨기만 다르며, CocoGlide JPEG100 정상 오탐률 0.922→0.527, 쌍 차이 AUC 0.514→0.604로 실행 전에 정한 기준을 넘음. AutoSplice JPEG100 F1은 0.933→0.835. 탐색적 결과임. kimjihwan의 다음 새 실험 번호는 009임.
 - [seonghun 001 근접 중복 검사](docs/eda/EXP_seonghun_001_near_duplicate_check.md)·[002 CNN 특징 근접 중복 검사](docs/eda/EXP_seonghun_002_near_duplicate_feature_check.md): Colab 저장 출력 검토 완료(2026-11-23). 서로 다른 split 사이 중복은 46217(train)–54313(val) 1쌍, train 내부 중복 9쌍을 찾음. 분할 CSV는 변경하지 않음. seonghun의 다음 새 실험 번호는 004임.
 - [seonghun 003 JPEG 저장 이력 확인](docs/eda/EXP_seonghun_003_jpeg_history_check.md): Colab 저장 출력 검토 완료(2026-11-23). AutoSplice 정상 원본 2,273장은 모두 Q75, 조작본은 폴더 이름의 품질(100·90·75)과 모두 일치하며 4:2:0·표준 테이블임. CocoGlide는 모두 PNG임. 정상·JPEG100 조작본이 저장 품질만으로 구분되므로 학습·평가 조건 논의가 필요함.
 - [005 출력부 전이학습](docs/catnet/EXP_kimjaehak_005_catnet_transfer_learning.md)·[006 전체 파인튜닝](docs/catnet/EXP_kimjaehak_006_catnet_finetuning.md): 2026-11-22 A100 저장 출력 검토 완료. 각각 코드 셀 15개·오류 0개·그림 13개·테스트 2,257행을 확인함. 005는 epoch 15 선택, JPEG100 개선과 JPEG75·CocoGlide 악화를 함께 기록함. 006은 5 epoch 학습 후 개선 없이 epoch 0 선택으로 학습 개선에 실패함. 체크포인트 재로드 오차는 둘 다 0이며 Drive 보관·팀원 시각 검토 확인은 남아 있음. [실행·보관 안내](docs/catnet_training.md)를 따름.
@@ -91,7 +95,7 @@
 
 | ID | 작업 | 담당 | 상태 | 완료 조건 |
 | --- | --- | --- | --- | --- |
-| T14 | JPEG 증강 | 미정 | 보류 | 기본 비교 후 품질 범위·확률·ELA 재계산 순서를 정해 새 번호로 실험 |
+| T14 | JPEG 증강 | kimjihwan | 검토 필요 | RGB+ELA U-Net에 품질 70~100 재압축 증강(005, 제안서 4-3)을 적용해 004와 비교함. 추가로 정상 이미지 포함(007)·압축 격자 깨기(008)를 실험함. 팀 검토와 보고서 확인 필요 |
 | T15 | 학습·전처리 조건 개선 | 미정 | 보류 | 기준 실험과 변경점을 명시한 새 실험으로 비교 |
 | T16 | 모델 출력·지표 저장 구조 검토 | 미정 | 보류 | CAT-Net 체크포인트 Drive 경로는 안내에 기록함. 예측 이미지·지표 JSON 등 나머지 저장 위치·재현 방법·Git 제외 범위는 별도 합의 |
 | T20 | 에이전트의 VS Code·Colab 실행 연동 | 미정 | 보류 | 현재 수동 실행 흐름을 확인한 뒤 원격 코드 전달·셀 실행·출력 회수 자동화 범위를 검토 |
