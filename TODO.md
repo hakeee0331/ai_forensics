@@ -31,7 +31,10 @@
 - 001·002·003·004·005·006·007은 저장 출력 검토를 마쳐 보존함. kimjaehak의 다음 새 실험 번호는 008임. 새 파일 작성 직전에 번호 충돌을 확인함. 실행 환경·코드 버전·측정값·검증 한계는 각 보고서에 기록함.
 - [byhyun 001 전처리 실데이터 검증](docs/eda/EXP_byhyun_001_preprocessing_check.md): Colab 저장 출력 검토 완료. AutoSplice에서 ELA·크롭 처리와 평가 규칙 관련 개수를 확인하고 ELA 후보와 크롭 크기를 제안함. 모델 성능은 측정하지 않음.
 - [byhyun 002 전처리 패딩·입력 검증](docs/eda/EXP_byhyun_002_preprocessing_padding_check.md): Colab 저장 출력 검토 완료. 수정된 입력 검사와 `pad_image`·`unpad_image`를 합성 입력과 AutoSplice val 조작 이미지 361장에서 확인함. 모델 성능은 측정하지 않음. byhyun의 새 실험 번호는 003임.
-- [kimjihwan 001 U-Net 동작 확인](docs/rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.md): Colab 저장 출력 검토 완료(2026-11-20). ResNet-50 U-Net의 3·6채널 입력, 작은 배치 학습, 체크포인트 재로드, 원본 해상도 추론과 평가 함수 연결이 A100에서 모두 동작함. 학습 설정은 임시값이며 기본 실험·성능 측정이 아님. kimjihwan의 다음 새 실험 번호는 002임.
+- [kimjihwan 001 U-Net 동작 확인](docs/rgb_unet/EXP_kimjihwan_001_unet_pipeline_check.md): Colab 저장 출력 검토 완료(2026-11-20). ResNet-50 U-Net의 3·6채널 입력, 작은 배치 학습, 체크포인트 재로드, 원본 해상도 추론과 평가 함수 연결이 A100에서 모두 동작함. 학습 설정은 임시값이며 기본 실험·성능 측정이 아님.
+- [kimjihwan 002 RGB U-Net·손실 비교](docs/rgb_unet/EXP_kimjihwan_002_rgb_unet_loss_compare.md): Colab(L4) 저장 출력 검토 완료(2026-11-24). BCE·이미지별 Dice·BCE+Dice의 val F1 차이가 0.003 이내이며 규칙대로 `bce_dice`를 선택함. AutoSplice JPEG100 F1 0.969, JPEG90 0.279, JPEG75 0.005, CocoGlide 정상 픽셀 오탐률 0.970으로 압축 이력에 의존한 것으로 보임.
+- [kimjihwan 003 ELA U-Net](docs/ela_unet/EXP_kimjihwan_003_ela_unet_baseline.md): Colab(L4) 저장 출력 검토 완료(2026-11-24). AutoSplice JPEG100 F1 0.957, JPEG90 0.001, JPEG75 0.008, CocoGlide 정상 픽셀 오탐률 0.941로 RGB보다 나은 점이 없음.
+- [kimjihwan 004 RGB+ELA U-Net](docs/rgb_ela_unet/EXP_kimjihwan_004_rgb_ela_unet_baseline.md): Colab(L4) 저장 출력 검토 완료(2026-11-24). AutoSplice JPEG100 F1 0.972로 세 U-Net 중 가장 높으나 차이는 작고, JPEG90 0.005·JPEG75 0.008·CocoGlide 정상 픽셀 오탐률 0.976임. 세 U-Net 모두 JPEG 재압축과 CocoGlide에서 일반화하지 못해 JPEG 증강(T14)의 근거로 공유함. kimjihwan의 다음 새 실험 번호는 005임.
 - [seonghun 001 근접 중복 검사](docs/eda/EXP_seonghun_001_near_duplicate_check.md)·[002 CNN 특징 근접 중복 검사](docs/eda/EXP_seonghun_002_near_duplicate_feature_check.md): Colab 저장 출력 검토 완료(2026-11-23). 서로 다른 split 사이 중복은 46217(train)–54313(val) 1쌍, train 내부 중복 9쌍을 찾음. 분할 CSV는 변경하지 않음. seonghun의 다음 새 실험 번호는 004임.
 - [seonghun 003 JPEG 저장 이력 확인](docs/eda/EXP_seonghun_003_jpeg_history_check.md): Colab 저장 출력 검토 완료(2026-11-23). AutoSplice 정상 원본 2,273장은 모두 Q75, 조작본은 폴더 이름의 품질(100·90·75)과 모두 일치하며 4:2:0·표준 테이블임. CocoGlide는 모두 PNG임. 정상·JPEG100 조작본이 저장 품질만으로 구분되므로 학습·평가 조건 논의가 필요함.
 - [005 출력부 전이학습](docs/catnet/EXP_kimjaehak_005_catnet_transfer_learning.md)·[006 전체 파인튜닝](docs/catnet/EXP_kimjaehak_006_catnet_finetuning.md): 2026-11-22 A100 저장 출력 검토 완료. 각각 코드 셀 15개·오류 0개·그림 13개·테스트 2,257행을 확인함. 005는 epoch 15 선택, JPEG100 개선과 JPEG75·CocoGlide 악화를 함께 기록함. 006은 5 epoch 학습 후 개선 없이 epoch 0 선택으로 학습 개선에 실패함. 체크포인트 재로드 오차는 둘 다 0이며 Drive 보관·팀원 시각 검토 확인은 남아 있음. [실행·보관 안내](docs/catnet_training.md)를 따름.
@@ -76,9 +79,9 @@
 
 | ID | 작업 | 담당 | 상태 | 완료 조건 |
 | --- | --- | --- | --- | --- |
-| T09 | RGB U-Net 기본 실험 | kimjihwan | 진행 중 | 확정한 공통 조건으로 실행하고 노트북·보고서·점수표 기록 |
-| T10 | ELA U-Net 기본 실험 | 미정 | 미착수 | RGB 기본 실험과 비교 가능한 조건으로 실행·기록 |
-| T11 | RGB+ELA U-Net 기본 실험 | 미정 | 미착수 | 같은 이미지에서 RGB·ELA를 구성해 실행·기록 |
+| T09 | RGB U-Net 기본 실험 | kimjihwan | 검토 필요 | 확정한 공통 조건으로 실행하고 노트북·보고서·점수표 기록 |
+| T10 | ELA U-Net 기본 실험 | kimjihwan | 검토 필요 | RGB 기본 실험과 비교 가능한 조건으로 실행·기록 |
+| T11 | RGB+ELA U-Net 기본 실험 | kimjihwan | 검토 필요 | 같은 이미지에서 RGB·ELA를 구성해 실행·기록 |
 | T12 | CAT-Net 사전 학습 모델 검증 | kimjaehak | 진행 중 | 공식 입력·가중치·학습 데이터 중복 요건 확인 후 실행·기록 |
 | T13 | 기본 결과 비교·정성 분석 | 미정 | 미착수 | 조건별 점수와 성공·실패 사례·모델 분석을 보고서에 정리 |
 | T21 | CAT-Net 출력부 전이학습 | kimjaehak | 검토 필요 | 005 학습·epoch 15 선택·테스트·보고서 갱신 완료. Drive 체크포인트 보관·팀원 시각 검토 확인 필요 |
